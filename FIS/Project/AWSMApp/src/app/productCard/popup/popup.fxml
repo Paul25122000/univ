@@ -20,9 +20,10 @@
                <children>
                   <Pane fx:id="giftHolder" layoutX="24.0" layoutY="174.0" prefWidth="672.0">
                      <children>
-                        <Pane fx:id="giftPane" layoutX="50.0" layoutY="50.0" prefHeight="200.0" prefWidth="614.0" style="-fx-effect: dropshadow(gaussian,#C7C9EB, 50, 0, 0, 1); -fx-background-radius: 15; -fx-background-color: white;" >
+                        <Pane fx:id="giftPane" layoutX="50.0" layoutY="50.0" prefHeight="200.0" prefWidth="614.0" style="-fx-effect: dropshadow(gaussian,#C7C9EB, 50, 0, 0, 1); -fx-background-radius: 15; -fx-background-color: white;">
                            <children>
-                              <Label fx:id="promotionName" visible="false" text="yo, bad"/>
+                              <Label fx:id="promotionName" layoutX="266.0" layoutY="26.0" prefHeight="45.0" prefWidth="296.0" styleClass="titleText" text="Label" />
+                              <Pane fx:id="giftImageHolder" layoutX="29.0" layoutY="14.0" prefHeight="161.0" prefWidth="161.0" />
                            </children>
                         </Pane>
                         <Pane fx:id="closeGift" layoutX="677.0" layoutY="36.0" prefHeight="22.0" prefWidth="22.0" styleClass="cancel" stylesheets="@../../css/style.css">
@@ -36,10 +37,10 @@
                      <children>
                         <Pane layoutX="50.0" layoutY="14.0" prefHeight="266.0" prefWidth="823.0">
                            <children>
-                              <Label layoutX="308.0" layoutY="50.0" prefHeight="20.0" prefWidth="72.0" styleClass="desciptionText" stylesheets="@../../css/style.css" text="Categorie" textFill="#b7b7b7" />
+                              <Label layoutX="302.0" layoutY="68.0" prefHeight="20.0" prefWidth="72.0" styleClass="desciptionText" stylesheets="@../../css/style.css" text="Categorie" textFill="#b7b7b7" />
                               <Button fx:id="updateBtn" layoutX="313.0" layoutY="198.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="148.0" styleClass="updateBtn" stylesheets="@../../css/style.css" text="modifica" />
-                              <Label layoutX="308.0" layoutY="81.0" prefHeight="20.0" prefWidth="64.0" styleClass="desciptionText" stylesheets="@../../css/style.css" text="Provizor" textFill="#b7b7b7" />
-                              <Label layoutX="308.0" layoutY="113.0" prefHeight="20.0" prefWidth="106.0" styleClass="desciptionText" stylesheets="@../../css/style.css" text="Stoc disponibil" textFill="#b7b7b7" />
+                              <Label layoutX="302.0" layoutY="99.0" prefHeight="20.0" prefWidth="64.0" styleClass="desciptionText" stylesheets="@../../css/style.css" text="Provizor" textFill="#b7b7b7" />
+                              <Label layoutX="302.0" layoutY="131.0" prefHeight="20.0" prefWidth="106.0" styleClass="desciptionText" stylesheets="@../../css/style.css" text="Stoc disponibil" textFill="#b7b7b7" />
                               <Pane fx:id="deleteBtn" layoutX="736.0" layoutY="206.0" prefHeight="32.0" prefWidth="30.0" styleClass="deleteBtn" stylesheets="@../../css/style.css">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -55,11 +56,10 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <TextField fx:id="categoryInput" layoutX="415.0" layoutY="48.0" prefHeight="20.0" prefWidth="149.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-style: none;" stylesheets="@../../css/style.css" text="x" />
-                              <TextField fx:id="providerInput" layoutX="415.0" layoutY="78.0" prefHeight="20.0" prefWidth="149.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-border-style: none;" stylesheets="@../../css/style.css" text="x" />
-                              <TextField fx:id="amountInput" layoutX="415.0" layoutY="110.0" prefHeight="26.0" prefWidth="41.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-style: none;" stylesheets="@../../css/style.css" text="x" />
+                              <TextField fx:id="categoryInput" layoutX="409.0" layoutY="66.0" prefHeight="20.0" prefWidth="149.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-style: none;" stylesheets="@../../css/style.css" text="x" />
+                              <TextField fx:id="providerInput" layoutX="409.0" layoutY="96.0" prefHeight="20.0" prefWidth="149.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-border-style: none;" stylesheets="@../../css/style.css" text="x" />
+                              <TextField fx:id="amountInput" layoutX="409.0" layoutY="128.0" prefHeight="26.0" prefWidth="41.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-style: none;" stylesheets="@../../css/style.css" text="x" />
                               <TextField fx:id="nameInput" layoutX="302.0" prefHeight="46.0" prefWidth="488.0" style="-fx-border-color: transparent; -fx-border-style: none; -fx-background-color: transparent; -fx-font-family: Gotham Pro Black; -fx-font-size: 25;" stylesheets="@../../css/style.css" text="Numele Produsului" />
-                              <TextField fx:id="priceInput" layoutX="302.0" layoutY="14.0" prefHeight="46.0" prefWidth="488.0" style="-fx-border-color: transparent; -fx-border-style: none; -fx-background-color: transparent; -fx-font-family: Gotham Pro Black; -fx-font-size: 25;" stylesheets="@../../css/style.css" text="Numele Produsului" visible="false" />
                               <Pane layoutX="735.0" layoutY="69.0" prefHeight="32.0" prefWidth="32.0" styleClass="warranty" stylesheets="@../../css/style.css" />
                               <Pane fx:id="imageHolder" layoutX="14.0" layoutY="17.0" prefHeight="220.0" prefWidth="235.0" />
                               <Text fill="#b7b7b7" layoutX="635.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="desciptionText" text="Acest produs" />
@@ -69,8 +69,9 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Text>
-                              <CheckBox fx:id="paidCheckbox" layoutX="415.0" layoutY="145.0" mnemonicParsing="false" text="Platit" />
-                              <CheckBox fx:id="deliveredCheckbox" layoutX="308.0" layoutY="145.0" mnemonicParsing="false" text="Livrat" />
+                              <CheckBox fx:id="paidCheckbox" layoutX="409.0" layoutY="163.0" mnemonicParsing="false" text="Platit" />
+                              <CheckBox fx:id="deliveredCheckbox" layoutX="302.0" layoutY="163.0" mnemonicParsing="false" text="Livrat" />
+                              <Text fx:id="priceInput" fill="#ff3232" layoutX="313.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="desciptionText" text="Text" />
                            </children>
                         </Pane>
                         <Pane fx:id="reportArea" layoutX="196.0" layoutY="287.0">

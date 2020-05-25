@@ -74,7 +74,7 @@ public class PopupController extends Component {
     @FXML
     private CheckBox paidCheckbox;
     @FXML
-    private TextField priceInput;
+    private Text priceInput;
     @FXML
     private Pane giftPane;
 
@@ -94,6 +94,9 @@ public class PopupController extends Component {
     private Button addPromotionBtn;
     Promotion promotion = null;
 
+    @FXML
+    private Pane giftImageHolder;
+
     public PopupController(int id, String category, String name, int amount, int price, String date, String image,
                            String provider, Boolean paid, Boolean delivered, String comments, Set categories) throws IOException, JSONException {
 
@@ -112,6 +115,8 @@ public class PopupController extends Component {
         componentsCombo.getSelectionModel().selectFirst();
 
         reportArea.getChildren().clear();
+
+        priceInput.setText("pret: "+price);
 
         nameInput.setText(name);
         nameInput.setDisable(true);
