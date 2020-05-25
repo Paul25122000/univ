@@ -32,7 +32,7 @@
                         <Font name="Arial Black" size="25.0" />
                     </font>
                 </Text>
-                <Text fill="#636363" layoutX="48.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="desciptionText" text="Categorie">
+                <Text fill="#636363" layoutX="48.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="descriptionText" text="Categorie">
                     <font>
                         <Font name="Arial Black" size="12.0" />
                     </font>
@@ -40,7 +40,7 @@
                 <ComboBox fx:id="categoryBox" layoutX="137.0" layoutY="151.0" onAction="#filter" prefWidth="150.0" />
                 <Button fx:id="showAll" layoutX="764.0" layoutY="141.0" minWidth="32.0" mnemonicParsing="false"
                         onAction="#renderAll"
-                        prefHeight="40.0" prefWidth="143.0" style="-fx-background-color: transparent; -fx-text-fill: #636363;" styleClass="desciptionText" text="show all" textFill="#636363">
+                        prefHeight="40.0" prefWidth="143.0" style="-fx-background-color: transparent; -fx-text-fill: #636363;" styleClass="descriptionText" text="show all" textFill="#636363">
                     <font>
                         <Font name="Arial" size="12.0" />
                     </font>
@@ -52,6 +52,6 @@
         </Pane>
     </children>
     <stylesheets>
-        <URL value="@../css/style.css" />
+        <URL value="@/app/css/style.css" />
     </stylesheets>
 </VBox>

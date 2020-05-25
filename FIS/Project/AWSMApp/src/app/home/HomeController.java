@@ -1,8 +1,10 @@
 package app.home;
 
 import app.components.Component;
+import app.promotions.Promotion;
 import app.services.APIHandler;
 import app.services.ProductsLists;
+import app.systems.Systems;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
@@ -58,16 +60,56 @@ public class HomeController extends WorkspaceController {
                 JSONObject record = jsonArray.getJSONObject(i);
                 ProductsLists.push(new Component(
                         record.getInt("id"),
-                        record.getString("category"),
+                        record.getInt("categoryId"),
+                        record.getString("categoryName"),
                         record.getString("name"),
                         record.getInt("amount"),
                         record.getInt("price"),
+                        record.getBoolean("paid"),
                         record.getString("date"),
                         record.getString("image"),
                         record.getString("provider"),
-                        record.getBoolean("paid"),
                         record.getBoolean("delivered"),
                         record.getString("comments")));
+            }
+        }
+        if (ProductsLists.getSystemsAmount() == 0) {
+            response = APIHandler.getRecords("systems", "");
+            JSONArray jsonArray = new JSONArray(response.toString());
+            int recordAmount = jsonArray.length();
+            for (int i = 0; i < recordAmount; i++) {
+                JSONObject record = jsonArray.getJSONObject(i);
+                ProductsLists.push(new Systems(
+                        record.getInt("id"),
+                        record.getInt("categoryId"),
+                        record.getString("categoryName"),
+                        record.getString("name"),
+                        record.getInt("amount"),
+                        record.getInt("price"),
+                        record.getBoolean("paid"),
+                        record.getString("date"),
+                        record.getString("image"),
+                        record.getInt("orders"),
+                        record.getInt("delivers"),
+                        record.getInt("warranty"),
+                        record.getString("categoryParent")));
+            }
+        }
+        if (ProductsLists.getPromotionsAmount() == 0) {
+            response = APIHandler.getRecords("promotions", "");
+            JSONArray jsonArray = new JSONArray(response.toString());
+
+            int recordAmount = jsonArray.length();
+            for (int i = 0; i < recordAmount; i++) {
+                JSONObject record = jsonArray.getJSONObject(i);
+                ProductsLists.push(new Promotion(
+                        record.getInt("id"),
+                        record.getInt("system_id"),
+                        record.getString("category"),
+                        record.getString("name"),
+                        record.getInt("amount"),
+                        record.getString("provider"),
+                        record.getString("image")));
             }
         }
     }
@@ -80,10 +122,9 @@ public class HomeController extends WorkspaceController {
         int recordAmount = ProductsLists.getComponentsAmount();
         int latest = recordAmount - (recordLimit + 1);
 
-        System.out.println(recordAmount);
         for (int i = 0; i < recordAmount; i++) {
             Component component = ProductsLists.getComponent(i);
-            String name = component.category;
+            String name = component.name;
             int amount = component.amount;
             String date = component.date;
 

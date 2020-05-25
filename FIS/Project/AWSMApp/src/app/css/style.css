@@ -9,7 +9,7 @@
     -fx-cursor: hand;
 }
 
-
+.sideNav Button:hover,
 .sideNav Button.active {
     -fx-background-color: transparent;
     -fx-border-style: hidden hidden hidden solid;
@@ -152,7 +152,7 @@
     -fx-scale-y: 1.03;
 }
 
-.desciptionText {
+.descriptionText {
     -fx-font-family: "Gotham Pro Medium";
     -fx-font-size: 14;
 }
@@ -191,7 +191,7 @@
     -fx-background-image: url("../assets/warranty.png");
     -fx-background-repeat: no-repeat;
 }
-.oferta{
+.promotion{
     -fx-background-image: url("../assets/discount-label.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover,auto;

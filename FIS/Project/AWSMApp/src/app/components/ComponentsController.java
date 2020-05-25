@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import app.productCard.ComponentCardController;
+import app.components.card.ComponentCardController;
 import org.json.JSONException;
 
 import java.io.*;
@@ -31,13 +31,12 @@ public class ComponentsController {
 
 
     Set<String> categories = new HashSet<String>();
-    public StringBuffer jsonStr = new StringBuffer();
 
     @FXML
     public void appendTemplate(ComponentCardController component,
                                int layoutX, int layoutY) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/productCard/ComponentCard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/components/card/ComponentCard.fxml"));
         loader.setController(component);
         Pane componentCard = loader.load();
         componentCard.setLayoutX(layoutX);
@@ -50,7 +49,6 @@ public class ComponentsController {
     @FXML
     private void search(ActionEvent event) throws IOException, JSONException {
         renderView(((TextField) event.getSource()).getText());
-        System.out.println(((TextField) event.getSource()).getText());
     }
 
     @FXML
@@ -68,8 +66,7 @@ public class ComponentsController {
         for (int i = 0; i < componentsAmount; i++) {
 
             Component component = ProductsLists.getComponent(i);
-            String category = component.category;
-            categories.add(category);
+            categories.add(String.valueOf(component.categoryName));
 
             int layoutX = 50;
             if (occurrences % 3 == 1) {
@@ -77,9 +74,11 @@ public class ComponentsController {
             } else if (occurrences % 3 == 2) {
                 layoutX = 480;
             }
+
             if (filter.equals("none")
-                    || filter.equals(component.category)
-                    || component.name.toLowerCase().contains(filter)) {
+                    || filter.equals(component.categoryName)
+                    || component.name.toLowerCase().contains(filter.toLowerCase())) {
+
                 appendTemplate(new ComponentCardController(component, categories), layoutX, layoutY);
                 layoutY += (occurrences + 1) % 3 != 0 ? 0 : 270;
                 occurrences++;

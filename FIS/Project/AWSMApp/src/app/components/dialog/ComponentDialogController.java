@@ -1,109 +1,78 @@
-package app.productCard.popup;
+package app.components.dialog;
 
 import app.components.Component;
 import app.promotions.Promotion;
-import app.services.ProductsLists;
-import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import app.services.APIHandler;
-import javafx.util.Duration;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.Set;
 
-public class PopupController extends Component {
+public class ComponentDialogController extends Component {
 
     @FXML
     private Button updateBtn;
-
     @FXML
     private Pane deleteBtn;
-
     @FXML
     private Pane saveBtn;
-
     @FXML
     private Pane cancelBtn;
-
     @FXML
-    private TextField categoryInput;
-
+    private ComboBox<?> componentsEditCombo;
     @FXML
     private TextField providerInput;
-
     @FXML
     private TextField amountInput;
-
     @FXML
     private TextField nameInput;
-
     @FXML
     private Pane imageHolder;
-
     @FXML
     private Text reportBtn;
-
     @FXML
     private Pane reportArea;
-
     @FXML
     private Text alegeComponenta;
-
     @FXML
     private ComboBox<?> componentsCombo;
-
     @FXML
     private Pane feedbackHolder;
-
     @FXML
     private Pane renuntaBtn;
-
     @FXML
     private Pane closeBtn;
-
     @FXML
     private CheckBox deliveredCheckbox;
     @FXML
     private CheckBox paidCheckbox;
     @FXML
-    private Text priceInput;
+    private TextField priceInput;
     @FXML
     private Pane giftPane;
-
     @FXML
-    private Pane ofertaHolder;
+    private Pane promotionHolder;
     @FXML
-
     private Pane closeGift;
     @FXML
     private Pane giftHolder;
-
     public Set recordCategories;
-
     @FXML
     private Label promotionName;
     @FXML
     private Button addPromotionBtn;
     Promotion promotion = null;
 
-    @FXML
-    private Pane giftImageHolder;
-
-    public PopupController(int id, String category, String name, int amount, int price, String date, String image,
-                           String provider, Boolean paid, Boolean delivered, String comments, Set categories) throws IOException, JSONException {
-
-        super(id, category, name, amount, price, date, image, provider, paid, delivered, comments);
+    public ComponentDialogController(Component component, Set categories) throws IOException, JSONException {
+        super(component);
         this.recordCategories = categories;
-
-        promotion = APIHandler.getPromotion(id);
     }
 
     @FXML
@@ -116,13 +85,14 @@ public class PopupController extends Component {
 
         reportArea.getChildren().clear();
 
-        priceInput.setText("pret: "+price);
-
         nameInput.setText(name);
         nameInput.setDisable(true);
 
-        categoryInput.setText(category);
-        categoryInput.setDisable(true);
+        componentsEditCombo.setItems(FXCollections.observableArrayList(recordCategories));
+        recordCategories.forEach(System.out::println);
+
+        componentsEditCombo.getSelectionModel().selectFirst();
+        componentsEditCombo.setDisable(true);
 
         amountInput.setText(String.valueOf(amount));
         amountInput.setDisable(true);
@@ -140,20 +110,6 @@ public class PopupController extends Component {
         deliveredCheckbox.setDisable(true);
         priceInput.setText(String.valueOf(price));
 
-        if(promotion != null) {
-            promotionName.setText(promotion.name);
-            promotionName.setVisible(true);
-            giftHolder.setVisible(true);
-            ofertaHolder.setVisible(true);
-        } else {
-            giftHolder.setVisible(false);
-            ofertaHolder.setVisible(false);
-            promotionName.setVisible(false);
-        }
-
-        ///gift trasition effect
-        TranslateTransition translate = new TranslateTransition();
-
         imageHolder.setStyle("-fx-background-radius: 15" +
                 ";-fx-background-image: url(" + image + ");" +
                 "-fx-background-position: center center;" +
@@ -163,7 +119,7 @@ public class PopupController extends Component {
         //modifica
         updateBtn.setOnMouseClicked(mouseEvent -> {
             nameInput.setDisable(false);
-            categoryInput.setDisable(false);
+            componentsEditCombo.setDisable(false);
             amountInput.setDisable(false);
             saveBtn.setVisible(true);
             cancelBtn.setVisible(true);
@@ -174,17 +130,17 @@ public class PopupController extends Component {
         //save changes
         saveBtn.setOnMouseClicked(mouseEvent -> {
             nameInput.setDisable(true);
-            categoryInput.setDisable(true);
+            componentsEditCombo.setDisable(true);
             providerInput.setDisable(true);
             amountInput.setDisable(true);
             saveBtn.setVisible(false);
             paidCheckbox.setDisable(true);
             deliveredCheckbox.setDisable(true);
             cancelBtn.setVisible(false);
-            System.out.println("update elemente: " + id);
+
             final String UPDATE_PARAMS = "{\n" +
                     "    \"id\": " + id + ",\r\n" +
-                    "    \"category\": \"" + categoryInput.getText() + "\",\r\n" +
+                    "    \"category\": \"" + componentsEditCombo.getValue() + "\",\r\n" +
                     "    \"name\": \"" + nameInput.getText() + "\",\r\n" +
                     "    \"amount\": " + Integer.valueOf(amountInput.getText()) + ",\r\n" +
                     "    \"price\": " + Integer.valueOf(priceInput.getText()) + ",\r\n" +
@@ -194,9 +150,19 @@ public class PopupController extends Component {
                     "    \"comments\": \"" + comments + "\"\n}";
             try {
                 APIHandler.makeRequest("UPDATE", "components", UPDATE_PARAMS);
-                ProductsLists.push(new Component(id, categoryInput.getText(), nameInput.getText(), Integer.parseInt(amountInput.getText()),
-                        Integer.parseInt(priceInput.getText()), date, image, providerInput.getText(), paidCheckbox.isSelected(),
-                        deliveredCheckbox.isSelected(), comments));
+//                ProductsLists.push(new Component(
+//                        id,
+//                        Integer.parseInt(componentsEditCombo.getValue()),
+//                        componentsEditCombo.getValue(),
+//                        nameInput.getText(),
+//                        Integer.parseInt(amountInput.getText()),
+//                        Integer.parseInt(priceInput.getText()),
+//                        paidCheckbox.isSelected(),
+//                        date,
+//                        image,
+//                        providerInput.getText(),
+//                        deliveredCheckbox.isSelected(),
+//                        comments));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -204,7 +170,7 @@ public class PopupController extends Component {
         //cancel btn
         cancelBtn.setOnMouseClicked(mouseEvent -> {
             nameInput.setDisable(true);
-            categoryInput.setDisable(true);
+            componentsEditCombo.setDisable(true);
             providerInput.setDisable(true);
             amountInput.setDisable(true);
             saveBtn.setVisible(false);
@@ -231,65 +197,12 @@ public class PopupController extends Component {
 
         reportBtn.setOnMouseClicked(mouseEvent -> {
             reportArea.getChildren().addAll(alegeComponenta, componentsCombo, feedbackHolder);
-
-            //translate gift card to the bottom of current card
-            translate.setToX(0);
-            translate.setToY(170);
-            translate.setDuration(Duration.millis(500));
-            translate.setNode(giftHolder);
-            translate.play();
         });
 
         renuntaBtn.setOnMouseClicked(mouseEvent -> {
             reportArea.getChildren().clear();
-            //translate gift card
-            translate.setToX(0);
-            translate.setToY(0);
-            translate.setDuration(Duration.millis(500));
-            translate.setNode(giftHolder);
-            translate.play();
         });
 
-        //cand se apasa pe produsul cadou, animatie de popup
-        giftPane.setOnMouseClicked(mouseEvent -> {
-           giftHolder.toFront();
-           translate.setToX(90);
-           translate.setToY(50);
-            translate.setDuration(Duration.millis(500));
-            translate.setNode(giftHolder);
-            translate.play();
-          //  ;
-        });
-       closeGift.setOnMouseClicked(mouseEvent -> {
-
-           if(reportArea.getChildren().isEmpty()){
-
-               translate.setToX(0);
-               translate.setToY(0);
-               translate.setDuration(Duration.millis(500));
-               translate.setNode(giftHolder);
-               translate.play();
-               giftHolder.toBack();
-
-           }else{
-               translate.setToX(0);
-               translate.setToY(170);
-               translate.setDuration(Duration.millis(500));
-               translate.setNode(giftHolder);
-               translate.play();
-               giftHolder.toBack();
-           }
-
-        });
-
-
-        promotion = APIHandler.getPromotion(id);
-        if(promotion != null) {
-            promotionName.setText(promotion.name);
-            promotionName.setVisible(true);
-        } else {
-            promotionName.setVisible(false);
-        }
     }
 }
 

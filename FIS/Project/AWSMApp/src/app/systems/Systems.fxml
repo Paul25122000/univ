@@ -11,45 +11,47 @@
     <children>
         <Pane prefHeight="700.0" prefWidth="950.0">
             <children>
-            <TextField fx:id="searchBar" layoutX="567.0" layoutY="23.0" onAction="#search" prefHeight="46.0" prefWidth="269.0" styleClass="searchBar" />
-            <Pane layoutX="42.0" layoutY="181.0" prefHeight="498.0" prefWidth="867.0">
-               <children>
-                <AnchorPane layoutX="3.0" layoutY="8.0" minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="867.0">
-                     <children>
-                        <ScrollPane fx:id="scroll" fitToWidth="true" layoutX="16.0" layoutY="26.0" prefHeight="458.0" prefWidth="856.0" style="-fx-border-style: none; -fx-background-color: transparent;">
-                          <content>
-                            <AnchorPane fx:id="wrapper" minHeight="0.0" minWidth="0.0" prefWidth="850.0" />
-                          </content>
-                           <opaqueInsets>
-                              <Insets top="20.0" />
-                           </opaqueInsets>
-                        </ScrollPane>
-                     </children>
-                  </AnchorPane>
-               </children></Pane>
-            <Text fill="#636363" layoutX="341.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Sisteme disponibile">
-               <font>
-                  <Font name="Arial Black" size="25.0" />
-               </font>
-            </Text>
-            <Text fill="#636363" layoutX="48.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="desciptionText" text="Categorie">
-               <font>
-                  <Font name="Arial Black" size="12.0" />
-               </font>
-            </Text>
-            <ComboBox fx:id="categoryBox" layoutX="137.0" layoutY="151.0" onAction="#filter" prefWidth="150.0" />
-            <Button fx:id="showAll" layoutX="764.0" layoutY="141.0" minWidth="32.0" mnemonicParsing="false" onAction="#showAll" prefHeight="40.0" prefWidth="143.0" style="-fx-background-color: transparent; -fx-text-fill: #636363;" styleClass="desciptionText" text="show all" textFill="#636363">
-               <font>
-                  <Font name="Arial" size="12.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
+                <TextField fx:id="searchBar" layoutX="567.0" layoutY="23.0" onAction="#search" prefHeight="46.0" prefWidth="269.0" styleClass="searchBar"/>
+                <Pane layoutX="42.0" layoutY="181.0" prefHeight="498.0" prefWidth="867.0">
+                    <children>
+                        <AnchorPane layoutX="3.0" layoutY="8.0" minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="867.0">
+                            <children>
+                                <ScrollPane fx:id="scroll" fitToWidth="true" layoutX="16.0" layoutY="26.0" prefHeight="458.0" prefWidth="856.0" style="-fx-border-style: none; -fx-background-color: transparent;">
+                                    <content>
+                                        <AnchorPane fx:id="wrapper" minHeight="0.0" minWidth="0.0" prefWidth="850.0" />
+                                    </content>
+                                    <opaqueInsets>
+                                        <Insets top="20.0" />
+                                    </opaqueInsets>
+                                </ScrollPane>
+                            </children>
+                        </AnchorPane>
+                    </children></Pane>
+                <Text fill="#636363" layoutX="341.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Sisteme disponibile">
+                    <font>
+                        <Font name="Arial Black" size="25.0" />
+                    </font>
+                </Text>
+                <Text fill="#636363" layoutX="48.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="descriptionText" text="Categorie">
+                    <font>
+                        <Font name="Arial Black" size="12.0" />
+                    </font>
+                </Text>
+                <ComboBox fx:id="categoryBox" layoutX="137.0" layoutY="151.0" onAction="#filter" prefWidth="150.0" />
+                <Button fx:id="showAll" layoutX="764.0" layoutY="141.0" minWidth="32.0" mnemonicParsing="false"
+                        onAction="#renderAll"
+                        prefHeight="40.0" prefWidth="143.0" style="-fx-background-color: transparent; -fx-text-fill: #636363;" styleClass="descriptionText" text="show all" textFill="#636363">
+                    <font>
+                        <Font name="Arial" size="12.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
             </children>
         </Pane>
     </children>
     <stylesheets>
-        <URL value="@../css/style.css" />
+        <URL value="@/app/css/style.css" />
     </stylesheets>
 </VBox>

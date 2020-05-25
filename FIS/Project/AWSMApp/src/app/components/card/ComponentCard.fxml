@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<?import java.net.URL?>
+<AnchorPane prefHeight="324.0" prefWidth="227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane fx:id="paneContainer" layoutX="26.0" layoutY="37.0" prefHeight="250.0" prefWidth="174.0" styleClass="cardTemplate">
+         <children>
+            <Pane fx:id="imagePane" prefHeight="175.0" prefWidth="174.0">
+               <children>
+               </children>
+            </Pane>
+            <Pane fx:id="textPane" layoutY="175.0" prefHeight="75.0" prefWidth="174.0">
+               <children>
+                  <Text fx:id="productName" layoutX="14.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Gotham Pro Black; -fx-font-size: 16;" text="Text" wrappingWidth="145.12972831726074" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+
+   <stylesheets>
+      <URL value="@/app/css/style.css" />
+   </stylesheets>
+</AnchorPane>

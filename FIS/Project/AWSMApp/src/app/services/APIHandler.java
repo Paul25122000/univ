@@ -34,10 +34,11 @@ public class APIHandler {
         System.out.println(BODY);
         String requestAPI = API + endpoint;
         if (METHOD.equals("UPDATE")) {
-            requestAPI = requestAPI + "/update";
+            requestAPI = requestAPI + "update";
             METHOD = "PUT";
         }
         URL url = new URL(requestAPI);
+        System.out.println(requestAPI);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(METHOD);
         conn.setRequestProperty("Content-Type", "application/json");
@@ -83,8 +84,6 @@ public class APIHandler {
 
         int recordAmount = jsonArray.length();
 
-
-        System.out.println(system_id);
         for (int i = 0; i < recordAmount; i++) {
             JSONObject record = jsonArray.getJSONObject(i);
             return new Promotion(

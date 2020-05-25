@@ -8,7 +8,7 @@
 <BorderPane fx:id="borderPane" prefHeight="700.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.workspace.WorkspaceController">
     <stylesheets>
-        <URL value="@../css/style.css"/>
+        <URL value="@/app/css/style.css" />
     </stylesheets>
     <left>
         <VBox prefHeight="714.0" prefWidth="67.0" styleClass="sideNav" BorderPane.alignment="CENTER">
