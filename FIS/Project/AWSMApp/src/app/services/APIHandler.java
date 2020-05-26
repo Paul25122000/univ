@@ -30,7 +30,7 @@ public class APIHandler {
         return getResponse;
     }
 
-    public static void makeRequest(String METHOD, String endpoint, String BODY) throws IOException {
+    public static StringBuilder makeRequest(String METHOD, String endpoint, String BODY) throws IOException {
         System.out.println(BODY);
         String requestAPI = API + endpoint;
         if (METHOD.equals("UPDATE")) {
@@ -48,13 +48,13 @@ public class APIHandler {
         os.flush();
         os.close();
         int responseCode = conn.getResponseCode();
+        StringBuilder response = new StringBuilder();
         System.out.println(" Response Code :  " + responseCode);
         System.out.println(" Response Message : " + conn.getResponseMessage());
         if (responseCode == HttpURLConnection.HTTP_OK) { //success
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     conn.getInputStream()));
             String inputLine;
-            StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
@@ -64,6 +64,7 @@ public class APIHandler {
         } else {
             System.out.println(METHOD + " FAILED");
         }
+        return response;
     }
 
     public static String getDashboard() throws IOException {

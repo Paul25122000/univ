@@ -81,7 +81,7 @@ public class SystemsDialogController extends Systems {
     }
 
     @FXML
-    public void initialize() throws IOException, JSONException {
+    public void initialize() {
 
 
         //componente pentru garantie

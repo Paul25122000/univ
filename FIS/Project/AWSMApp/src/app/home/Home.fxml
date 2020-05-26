@@ -11,18 +11,26 @@
 <AnchorPane fx:id="anchorRoot" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="app.home.HomeController">
     <stylesheets>
-        <URL value="@/app/css/style.css" />
+        <URL value="@/app/css/style.css"/>
     </stylesheets>
     <children>
         <Pane fx:id="wrapper" prefHeight="714.0" prefWidth="908.0" style="-fx-background-color: white;">
             <children>
-                <Pane layoutX="55.0" layoutY="150.0" prefHeight="187.0" prefWidth="220.0" styleClass="dashboardCardBlue">
+                <Pane layoutX="55.0" layoutY="150.0" prefHeight="187.0" prefWidth="220.0"
+                      styleClass="dashboardCardBlue">
                     <children>
                         <Text fill="WHITE" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0"
                               styleClass="descriptionText" text="Sisteme disponibile"/>
+                        <Text fx:id="lastModifiedSystem" fill="WHITE" layoutX="42.0" layoutY="155.0" strokeType="OUTSIDE"
+                              strokeWidth="0.0" text="ultima modificare">
+                            <font>
+                                <Font name="Open Sans" size="12.0"/>
+                            </font>
+                        </Text>
                         <Pane fx:id="timeIconHolder" layoutX="14.0" layoutY="145.0" prefHeight="18.0" prefWidth="18.0"
-                              styleClass="timeIcon" />
-                        <Pane layoutX="14.0" layoutY="113.0" prefHeight="18.0" prefWidth="18.0" styleClass="folderIcon"/>
+                              styleClass="timeIcon"/>
+                        <Pane layoutX="14.0" layoutY="113.0" prefHeight="18.0" prefWidth="18.0"
+                              styleClass="folderIcon"/>
                         <Text fx:id="totalSystems" fill="WHITE" layoutX="42.0" layoutY="126.0" strokeType="OUTSIDE"
                               strokeWidth="0.0" text="count">
                             <font>
@@ -40,20 +48,19 @@
                         <Font name="Open Sans Semibold" size="36.0"/>
                     </font>
                 </Text>
-                <Pane layoutX="361.0" layoutY="150.0" prefHeight="187.0" prefWidth="220.0" styleClass="dashboardCardRed">
+                <Pane layoutX="361.0" layoutY="150.0" prefHeight="187.0" prefWidth="220.0"
+                      styleClass="dashboardCardRed">
                     <children>
                         <Text fill="WHITE" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0"
                               styleClass="descriptionText" text="Componente disponibile"/>
-                        <Text fx:id="lastAdded" fill="WHITE" layoutX="42.0" layoutY="155.0" strokeType="OUTSIDE"
+                        <Text fx:id="lastModifiedComponent" fill="WHITE" layoutX="42.0" layoutY="155.0" strokeType="OUTSIDE"
                               strokeWidth="0.0" text="ultima modificare">
                             <font>
                                 <Font name="Open Sans" size="12.0"/>
                             </font>
                         </Text>
-                        <Pane fx:id="timeIconHolder1" layoutX="14.0" layoutY="145.0" prefHeight="18.0" prefWidth="18.0"
-                              styleClass="timeIcon" />
-                        <Pane layoutX="14.0" layoutY="112.0" prefHeight="18.0" prefWidth="18.0" styleClass="folderIcon"
-                              />
+                        <Pane fx:id="timeIconHolder1" layoutX="14.0" layoutY="145.0" prefHeight="18.0" prefWidth="18.0" styleClass="timeIcon"/>
+                        <Pane layoutX="14.0" layoutY="112.0" prefHeight="18.0" prefWidth="18.0" styleClass="folderIcon"/>
                         <Text fx:id="totalComponents" fill="WHITE" layoutX="42.0" layoutY="125.0" strokeType="OUTSIDE"
                               strokeWidth="0.0" text="count">
                             <font>
@@ -66,7 +73,7 @@
                     </cursor>
                 </Pane>
                 <Text layoutX="69.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Recent Items">
+                      text="Adăugări recente">
                     <font>
                         <Font name="Open Sans Semibold" size="24.0"/>
                     </font>

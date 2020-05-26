@@ -1,5 +1,7 @@
 package app.home.recentItems;
 
+import app.components.Component;
+import app.systems.Systems;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -17,10 +19,12 @@ public class RecentItemsController {
     public  String nameRecord,
                     dateRecord;
     public int amountRecord;
-    public RecentItemsController(String name, int amount, String date){
-        nameRecord=name;
-        dateRecord=date;
-        amountRecord=amount;
+    public RecentItemsController(Systems system, Component component){
+        nameRecord=component.name;
+        dateRecord=component.date;
+        amountRecord=component.amount;
+
+        System.out.println(system +" "+ component);
     }
     @FXML
     public void initialize(){

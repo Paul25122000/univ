@@ -1,7 +1,5 @@
 package app.services.prototype;
 
-import app.promotions.Promotion;
-
 public abstract class Product {
 
     public int id;
@@ -34,19 +32,6 @@ public abstract class Product {
         this.paid = paid;
         this.date = date;
         this.image = image;
-    }
-
-
-    public Product (Product product) {
-        this.id = product.id;
-        this.categoryId = product.categoryId;
-        this.categoryName = product.categoryName;
-        this.name = product.name;
-        this.amount = product.amount;
-        this.price = product.price;
-        this.paid = product.paid;
-        this.date = product.date;
-        this.image = product.image;
     }
 
     public String getDeleteJSON() {

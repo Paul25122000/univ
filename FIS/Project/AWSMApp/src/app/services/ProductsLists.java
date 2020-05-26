@@ -39,9 +39,9 @@ public class ProductsLists {
         return promotionsList.size();
     }
 
-    public static Promotion getPromotion (int id) {
+    public static Promotion getPromotion (int systemId) {
         for (Promotion promotion : promotionsList) {
-            if (promotion.system_id == id)
+            if (promotion.systemId == systemId)
                 return promotion;
         }
         return null;

@@ -2,11 +2,14 @@ package app.addProduct;
 
 import app.services.APIHandler;
 import app.services.ProductsLists;
+import app.systems.Systems;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -75,7 +78,7 @@ public class AddProductController {
     }
 
     @FXML
-    void addNewProduct(ActionEvent event) throws IOException {
+    void addNewProduct(ActionEvent event) throws IOException, JSONException {
         if (isComponent.isSelected()) {
             int categoryId = ProductsLists.getComponentCategoryId(categorySelect.getValue());
             final String POST_PARAMS = "{\n" +
@@ -100,7 +103,25 @@ public class AddProductController {
                     "    \"price\": " + (int) (Math.round(priceInput.getValue())) + ",\r\n" +
                     "    \"warranty\": " + (int) (Math.round(warrantyInput.getValue())) + "\n}";
 
-            APIHandler.makeRequest("PUT", "systems", POST_PARAMS);
+            StringBuilder response =
+                    APIHandler.makeRequest("PUT", "systems", POST_PARAMS);
+
+            JSONObject record = new JSONObject(response);
+//            ProductsLists.push(new Systems(
+//                    record.getInt("id"),
+//                    record.getInt("categoryId"),
+//                    record.getString("categoryName"),
+//                    record.getString("name"),
+//                    record.getInt("amount"),
+//                    record.getInt("price"),
+//                    record.getBoolean("paid"),
+//                    record.getString("date"),
+//                    record.getString("image"),
+//                    record.getInt("orders"),
+//                    record.getInt("delivers"),
+//                    record.getInt("warranty"),
+//                    record.getString("categoryParent")
+//            ));
         }
     }
 
