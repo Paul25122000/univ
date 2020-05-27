@@ -88,7 +88,7 @@
                         </HBox>
                         <HBox fx:id="providerHBOX" style="-fx-spacing: 10;">
                             <children>
-                                <Label prefWidth="100.0" text="Furnizor" textFill="#404040">
+                                <Label fx:id="providerLabel" prefWidth="100.0" text="Furnizor" textFill="#404040">
                                     <font>
                                         <Font name="Arial Black" size="15.0" />
                                     </font>
@@ -149,9 +149,9 @@
                                 <TextArea fx:id="deliveryComments" prefHeight="82.0" prefWidth="200.0" scrollLeft="5.0" />
                             </children>
                         </HBox>
-                        <HBox fx:id="warrantyHBOX" style="-fx-spacing: 10;" translateY="-130.0" visible="false">
+                        <HBox fx:id="warrantyHBOX" style="-fx-spacing: 10;">
                             <children>
-                                <Label prefWidth="100.0" text="Garantie" textFill="#404040">
+                                <Label fx:id="warrantyLabel" prefWidth="100.0" text="Garantie" textFill="#404040">
                                     <font>
                                         <Font name="Arial Black" size="15.0" />
                                     </font>

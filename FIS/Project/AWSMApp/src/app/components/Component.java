@@ -4,9 +4,10 @@ import app.services.prototype.Product;
 
 public class Component extends Product {
 
-    public final String provider;
-    public final Boolean delivered;
-    public final String comments;
+    public String provider;
+    public Boolean delivered;
+    public String comments;
+    public int complaints;
 
     public Component(Component component) {
         super(component.id,
@@ -22,6 +23,7 @@ public class Component extends Product {
         this.provider = component.provider;
         this.delivered = component.delivered;
         this.comments = component.comments;
+        this.complaints = component.complaints;
     }
 
     public Component(int id,
@@ -35,11 +37,13 @@ public class Component extends Product {
                      String image,
                      String provider,
                      Boolean delivered,
-                     String comments) {
+                     String comments,
+                     int complaints) {
         super(id, categoryId, categoryName, name, amount, price, paid, date, image);
         this.provider = provider;
         this.paid = paid;
         this.delivered = delivered;
         this.comments = comments;
+        this.complaints = complaints;
     }
 }

@@ -2,11 +2,15 @@
     -fx-background-color: #121432;
 }
 
+.btn,
+Button {
+    -fx-cursor: hand;
+}
+
 .sideNav Button {
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-cursor: hand;
 }
 
 .sideNav Button:hover,
@@ -56,6 +60,14 @@
     -fx-background-position: 13px 15px;
 }
 
+.dialogCard,
+#giftPane {
+    -fx-background-color: white;
+    -fx-background-insets: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, #cccccc, 10, 0, 0, 0);
+}
+
 .cardTemplate {
     -fx-background-color: white;
     -fx-effect: dropshadow(gaussian, rgba(8, 88, 207, 0.08), 7, 0, 0, 5);
@@ -84,14 +96,6 @@
     -fx-border-radius: 10;
 }
 
-.report {
-
-}
-
-.report:hover {
-    -fx-cursor: hand;
-}
-
 .updateBtn {
     -fx-background-color: #FF985B;
     -fx-background-radius: 5;
@@ -111,6 +115,7 @@
 }
 
 .deleteBtn {
+    -fx-cursor: hand;
     -fx-background-image: url("../assets/rubbish-can.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover, auto;
@@ -122,7 +127,14 @@
     -fx-background-size: cover, auto;
 }
 
+.editText {
+    -fx-border-color: transparent;
+    -fx-border-style: none;
+    -fx-background-color: transparent;
+}
+
 .saveBtn {
+    -fx-cursor: hand;
     -fx-background-image: url("../assets/yes.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover, auto;
@@ -157,6 +169,10 @@
     -fx-font-size: 14;
 }
 
+#warrantyLabel {
+    -fx-text-fill: #b7b7b7;
+}
+
 .titleText {
     -fx-font-family: "Gotham Pro Black";
     -fx-font-size: 30;
@@ -181,23 +197,51 @@
     -fx-scale-y: 1.03;
 }
 
-.closeBtn {
+#closeBtn,
+#closeGift {
+    -fx-opacity: .5;
     -fx-background-image: url("../assets/close.png");
     -fx-background-repeat: no-repeat;
-    -fx-cursor: hand;
+    -fx-background-size: cover;
 }
 
 .warranty {
     -fx-background-image: url("../assets/warranty.png");
     -fx-background-repeat: no-repeat;
 }
-.promotion{
+
+.promotion {
     -fx-background-image: url("../assets/discount-label.png");
     -fx-background-repeat: no-repeat;
-    -fx-background-size: cover,auto;
+    -fx-background-size: cover, auto;
     -fx-effect: dropshadow(gaussian, #F2D0CA, 15, 0, 0, 1);
 }
 
 #giftPane {
     -fx-padding: 30px 10px;
+}
+
+
+#imagePane {
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+#promotionImage {
+    -fx-background-color: #fff;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: contain;
+    -fx-background-position: center;
+}
+
+#imageHolder {
+    -fx-background-radius: 15;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+#complaintFlag {
+    -fx-background-color: #8b0000;
+    -fx-background-radius: 5;
 }

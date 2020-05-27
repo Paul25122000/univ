@@ -7,6 +7,7 @@ public class Systems extends Product {
     public int delivers;
     public int warranty;
     public String categoryParent;
+    public String components;
 
     public Systems(Systems systems) {
             super(systems.id,
@@ -23,6 +24,7 @@ public class Systems extends Product {
         this.delivers = systems.delivers;
         this.warranty = systems.warranty;
         this.categoryParent = systems.categoryParent;
+        this.components = systems.components;
     }
     public Systems(
             int id,
@@ -37,11 +39,13 @@ public class Systems extends Product {
             int orders,
             int delivers,
             int warranty,
-            String categoryParent) {
+            String categoryParent,
+            String components) {
         super(id, categoryId, categoryName, name, amount, price, paid, date, image);
         this.orders = orders;
         this.delivers = delivers;
         this.warranty = warranty;
         this.categoryParent = categoryParent;
+        this.components = components;
     }
 }

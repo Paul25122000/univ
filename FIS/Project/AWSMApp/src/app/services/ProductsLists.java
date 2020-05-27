@@ -16,9 +16,11 @@ public class ProductsLists {
     public static void push(Component component) {
         componentsList.add(component);
     }
+
     public static void push(Systems systems) {
         systemsList.add(systems);
     }
+
     public static void push(Promotion promotion) {
         promotionsList.add(promotion);
     }
@@ -26,22 +28,26 @@ public class ProductsLists {
     public static int getComponentsAmount() {
         return componentsList.size();
     }
-    public static Component getComponent (int i) {
+
+    public static Component getComponent(int i) {
         return componentsList.get(i);
     }
 
     public static int getSystemsAmount() {
         return systemsList.size();
     }
-    public static Systems getSystems (int i) { return systemsList.get(i); }
+
+    public static Systems getSystems(int i) {
+        return systemsList.get(i);
+    }
 
     public static int getPromotionsAmount() {
         return promotionsList.size();
     }
 
-    public static Promotion getPromotion (int id) {
+    public static Promotion getPromotion(int systemId) {
         for (Promotion promotion : promotionsList) {
-            if (promotion.system_id == id)
+            if (promotion.systemId == systemId)
                 return promotion;
         }
         return null;
@@ -63,11 +69,66 @@ public class ProductsLists {
         return 0;
     }
 
+    public static int deleteComponent(int id) {
+        for (Component component : componentsList) {
+            if (component.id == id) {
+                componentsList.remove(component);
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public static int deleteSystem(int id) {
+        for (Systems system : systemsList) {
+            if (system.id == id) {
+                systemsList.remove(system);
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public static int updateSystem(Systems updatedSystem) {
+        int i=0;
+        for (Systems system : systemsList) {
+            if (system.id == updatedSystem.id) {
+                systemsList.set(i, updatedSystem);
+                return 1;
+            }
+            i++;
+        }
+        return 0;
+    }
+
+    public static int updateComponent(Component updatedComponent) {
+        int i=0;
+        for (Component component : componentsList) {
+            if (component.id == updatedComponent.id) {
+                componentsList.set(i, updatedComponent);
+                return 1;
+            }
+            i++;
+        }
+        return 0;
+    }
+
     public static Component getComponentById(int id) {
         for (Component component : componentsList) {
-            if (component.categoryId == id)
+            if (component.id == id) {
                 return component;
+            }
         }
         return null;
+    }
+
+    public static void incrementComplaints(int id) {
+        int amount = getComponentsAmount();
+        for (int i = 0; i<amount; i++) {
+            if (componentsList.get(i).id == id) {
+                componentsList.get(i).complaints++;
+                break;
+            };
+        }
     }
 }

@@ -17,13 +17,11 @@ import org.json.JSONObject;
 import app.home.recentItems.RecentItemsController;
 import app.workspace.WorkspaceController;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 public class HomeController extends WorkspaceController {
 
+    public Text lastModifiedSystem;
     @FXML
     private AnchorPane anchorRoot;
 
@@ -34,7 +32,7 @@ public class HomeController extends WorkspaceController {
     private Text totalSystems;
 
     @FXML
-    private Text lastAdded;
+    private Text lastModifiedComponent;
 
     @FXML
     private Pane timeIconHolder1;
@@ -70,7 +68,8 @@ public class HomeController extends WorkspaceController {
                         record.getString("image"),
                         record.getString("provider"),
                         record.getBoolean("delivered"),
-                        record.getString("comments")));
+                        record.getString("comments"),
+                        record.getInt("complaints")));
             }
         }
         if (ProductsLists.getSystemsAmount() == 0) {
@@ -92,7 +91,8 @@ public class HomeController extends WorkspaceController {
                         record.getInt("orders"),
                         record.getInt("delivers"),
                         record.getInt("warranty"),
-                        record.getString("categoryParent")));
+                        record.getString("categoryParent"),
+                        record.getString("components")));
             }
         }
         if (ProductsLists.getPromotionsAmount() == 0) {
@@ -119,17 +119,17 @@ public class HomeController extends WorkspaceController {
         recentFilesVbox.setSpacing(20);
         RecentItemsController recentItems;
 
-        int recordAmount = ProductsLists.getComponentsAmount();
-        int latest = recordAmount - (recordLimit + 1);
+        int componentsAmount = ProductsLists.getComponentsAmount();
+        int systemsAmount = ProductsLists.getSystemsAmount();
+        int latest = componentsAmount - (recordLimit + 1);
 
-        for (int i = 0; i < recordAmount; i++) {
-            Component component = ProductsLists.getComponent(i);
-            String name = component.name;
-            int amount = component.amount;
-            String date = component.date;
+        for (int i = 0; i < componentsAmount; i++) {
 
             if (i > latest) {
-                recentItems = new RecentItemsController(name, amount, date);
+                recentItems = new RecentItemsController(
+                        ProductsLists.getSystems(systemsAmount - 1),
+                        ProductsLists.getComponent(i)
+                );
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/home/recentItems/RecentItems.fxml"));
                 loader.setController(recentItems);
 
@@ -137,7 +137,10 @@ public class HomeController extends WorkspaceController {
                 recentFilesVbox.getChildren().addAll(recentPane);
             }
         }
-        totalComponents.setText(String.valueOf(recordAmount));
-        lastAdded.setText("Created on \n" + ProductsLists.getComponent(recordAmount-1).date);
+        totalComponents.setText(String.valueOf(componentsAmount));
+        lastModifiedComponent.setText("Ultima modificare: \n" + ProductsLists.getComponent(componentsAmount - 1).date);
+
+        totalSystems.setText(String.valueOf(systemsAmount));
+        lastModifiedSystem.setText("Ultima modificare: \n" + ProductsLists.getSystems(systemsAmount - 1).date);
     }
 }

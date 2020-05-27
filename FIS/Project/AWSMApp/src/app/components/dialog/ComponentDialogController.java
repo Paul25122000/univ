@@ -1,13 +1,13 @@
 package app.components.dialog;
 
 import app.components.Component;
-import app.promotions.Promotion;
+import app.components.ComponentsController;
+import app.services.ProductsLists;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import app.services.APIHandler;
 import org.json.JSONException;
@@ -26,7 +26,7 @@ public class ComponentDialogController extends Component {
     @FXML
     private Pane cancelBtn;
     @FXML
-    private ComboBox<?> componentsEditCombo;
+    private ComboBox<?> categoryCombo;
     @FXML
     private TextField providerInput;
     @FXML
@@ -36,17 +36,7 @@ public class ComponentDialogController extends Component {
     @FXML
     private Pane imageHolder;
     @FXML
-    private Text reportBtn;
-    @FXML
-    private Pane reportArea;
-    @FXML
-    private Text alegeComponenta;
-    @FXML
     private ComboBox<?> componentsCombo;
-    @FXML
-    private Pane feedbackHolder;
-    @FXML
-    private Pane renuntaBtn;
     @FXML
     private Pane closeBtn;
     @FXML
@@ -56,132 +46,117 @@ public class ComponentDialogController extends Component {
     @FXML
     private TextField priceInput;
     @FXML
-    private Pane giftPane;
-    @FXML
-    private Pane promotionHolder;
-    @FXML
-    private Pane closeGift;
-    @FXML
-    private Pane giftHolder;
-    public Set recordCategories;
-    @FXML
-    private Label promotionName;
-    @FXML
-    private Button addPromotionBtn;
-    Promotion promotion = null;
+    private TextArea commentsInput;
 
-    public ComponentDialogController(Component component, Set categories) throws IOException, JSONException {
+    public Set recordCategories;
+    Component updatedComponent = null;
+    ComponentsController componentsController = null;
+    public ComponentDialogController(Component component, Set categories,
+                                     ComponentsController componentsController) {
         super(component);
         this.recordCategories = categories;
+        this.componentsController = componentsController;
+        this.updatedComponent = component;
+        System.out.println(component.complaints);
+    }
+
+    private void setDisabled(Boolean isDisabled){
+        nameInput.setDisable(isDisabled);
+        categoryCombo.setDisable(isDisabled);
+        providerInput.setDisable(isDisabled);
+        amountInput.setDisable(isDisabled);
+        priceInput.setDisable(isDisabled);
+        deliveredCheckbox.setDisable(isDisabled);
+        paidCheckbox.setDisable(isDisabled);
+        commentsInput.setDisable(isDisabled);
+
+        saveBtn.setVisible(!isDisabled);
+        cancelBtn.setVisible(!isDisabled);
     }
 
     @FXML
-    public void initialize() throws IOException, JSONException {
-
-
-        //componente pentru garantie
-        componentsCombo.setItems(FXCollections.observableArrayList(recordCategories));
-        componentsCombo.getSelectionModel().selectFirst();
-
-        reportArea.getChildren().clear();
-
+    public void initialize() {
         nameInput.setText(name);
-        nameInput.setDisable(true);
-
-        componentsEditCombo.setItems(FXCollections.observableArrayList(recordCategories));
-        recordCategories.forEach(System.out::println);
-
-        componentsEditCombo.getSelectionModel().selectFirst();
-        componentsEditCombo.setDisable(true);
-
+        categoryCombo.setItems(FXCollections.observableArrayList(recordCategories));
         amountInput.setText(String.valueOf(amount));
-        amountInput.setDisable(true);
-
         providerInput.setText(provider);
-        providerInput.setDisable(true);
-
-        saveBtn.setVisible(false);
-        cancelBtn.setVisible(false);
-
         paidCheckbox.setSelected(paid);
-        paidCheckbox.setDisable(true);
-
         deliveredCheckbox.setSelected(delivered);
-        deliveredCheckbox.setDisable(true);
         priceInput.setText(String.valueOf(price));
+        commentsInput.setText(comments);
+        imageHolder.setStyle(String.format("-fx-background-image: url(%s);", image));
 
-        imageHolder.setStyle("-fx-background-radius: 15" +
-                ";-fx-background-image: url(" + image + ");" +
-                "-fx-background-position: center center;" +
-                " -fx-background-repeat: no-repeat;" +
-                "-fx-background-size: cover; ");
+        setDisabled(true);
+
+        var iterator = recordCategories.iterator();
+        int categoryIndex = 0;
+        while (iterator.hasNext()) {
+            if (iterator.next().equals(categoryName))
+                break;
+            categoryIndex++;
+        }
+        categoryCombo.getSelectionModel().select(categoryIndex);
 
         //modifica
         updateBtn.setOnMouseClicked(mouseEvent -> {
-            nameInput.setDisable(false);
-            componentsEditCombo.setDisable(false);
-            amountInput.setDisable(false);
-            saveBtn.setVisible(true);
-            cancelBtn.setVisible(true);
-            providerInput.setDisable(false);
-            paidCheckbox.setDisable(false);
-            deliveredCheckbox.setDisable(false);
+            setDisabled(false);
         });
+
         //save changes
         saveBtn.setOnMouseClicked(mouseEvent -> {
-            nameInput.setDisable(true);
-            componentsEditCombo.setDisable(true);
-            providerInput.setDisable(true);
-            amountInput.setDisable(true);
-            saveBtn.setVisible(false);
-            paidCheckbox.setDisable(true);
-            deliveredCheckbox.setDisable(true);
-            cancelBtn.setVisible(false);
+            setDisabled(true);
+
+            updatedComponent.categoryId = ProductsLists.getComponentCategoryId(
+                    (String) categoryCombo.getValue());
+            updatedComponent.categoryName = (String) categoryCombo.getValue();
+            updatedComponent.name = nameInput.getText();
+            updatedComponent.provider = providerInput.getText();
+            updatedComponent.amount = Integer.parseInt(amountInput.getText());
+            updatedComponent.price = Integer.parseInt(priceInput.getText());
+            updatedComponent.paid = paidCheckbox.isSelected();
+            updatedComponent.delivered = deliveredCheckbox.isSelected();
+            updatedComponent.comments = commentsInput.getText();
+
 
             final String UPDATE_PARAMS = "{\n" +
                     "    \"id\": " + id + ",\r\n" +
-                    "    \"category\": \"" + componentsEditCombo.getValue() + "\",\r\n" +
-                    "    \"name\": \"" + nameInput.getText() + "\",\r\n" +
-                    "    \"amount\": " + Integer.valueOf(amountInput.getText()) + ",\r\n" +
-                    "    \"price\": " + Integer.valueOf(priceInput.getText()) + ",\r\n" +
-                    "    \"provider\": \"" + providerInput.getText() + "\",\r\n" +
-                    "    \"paid\": " + paidCheckbox.isSelected() + ",\r\n" +
-                    "    \"delivered\": " + deliveredCheckbox.isSelected() + ",\r\n" +
-                    "    \"comments\": \"" + comments + "\"\n}";
+                    "    \"categoryId\": " + updatedComponent.categoryId + ",\r\n" +
+                    "    \"name\": \"" + updatedComponent.name + "\",\r\n" +
+                    "    \"provider\": \"" + updatedComponent.provider + "\",\r\n" +
+                    "    \"amount\": " + updatedComponent.amount + ",\r\n" +
+                    "    \"price\": " + updatedComponent.price + ",\r\n" +
+                    "    \"paid\": " + updatedComponent.paid + ",\r\n" +
+                    "    \"delivered\": " + updatedComponent.delivered + ",\r\n" +
+                    "    \"comments\": \"" + updatedComponent.comments + "\"\n}";
             try {
                 APIHandler.makeRequest("UPDATE", "components", UPDATE_PARAMS);
-//                ProductsLists.push(new Component(
-//                        id,
-//                        Integer.parseInt(componentsEditCombo.getValue()),
-//                        componentsEditCombo.getValue(),
-//                        nameInput.getText(),
-//                        Integer.parseInt(amountInput.getText()),
-//                        Integer.parseInt(priceInput.getText()),
-//                        paidCheckbox.isSelected(),
-//                        date,
-//                        image,
-//                        providerInput.getText(),
-//                        deliveredCheckbox.isSelected(),
-//                        comments));
-            } catch (IOException e) {
+                if(ProductsLists.updateComponent(updatedComponent) != 0) {
+                    componentsController.renderAll();
+                } else {
+                    System.out.println("Was unable to update");
+                }
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
         });
         //cancel btn
         cancelBtn.setOnMouseClicked(mouseEvent -> {
-            nameInput.setDisable(true);
-            componentsEditCombo.setDisable(true);
-            providerInput.setDisable(true);
-            amountInput.setDisable(true);
-            saveBtn.setVisible(false);
-            cancelBtn.setVisible(false);
-            paidCheckbox.setDisable(false);
-            deliveredCheckbox.setDisable(false);
+            setDisabled(true);
         });
         //delete btn
         deleteBtn.setOnMouseClicked(mouseEvent -> {
             try {
                 APIHandler.makeRequest("DELETE", "components", super.getDeleteJSON());
+
+                try {
+                    if(ProductsLists.deleteComponent(id) != 0) {
+                        componentsController.renderAll();
+                    } else {
+                        System.out.println("Was unable to delete");
+                    }
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -193,14 +168,6 @@ public class ComponentDialogController extends Component {
             Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
             // do what you have to do
             stage.close();
-        });
-
-        reportBtn.setOnMouseClicked(mouseEvent -> {
-            reportArea.getChildren().addAll(alegeComponenta, componentsCombo, feedbackHolder);
-        });
-
-        renuntaBtn.setOnMouseClicked(mouseEvent -> {
-            reportArea.getChildren().clear();
         });
 
     }

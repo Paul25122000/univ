@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Text?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import java.net.URL?>
-<AnchorPane prefHeight="324.0" prefWidth="227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="324.0" prefWidth="227.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane fx:id="paneContainer" layoutX="26.0" layoutY="37.0" prefHeight="250.0" prefWidth="174.0" styleClass="cardTemplate">
+      <Pane fx:id="paneContainer" layoutX="26.0" layoutY="37.0" prefHeight="260.0" prefWidth="174.0" styleClass="cardTemplate">
          <children>
             <Pane fx:id="imagePane" prefHeight="175.0" prefWidth="174.0">
                <children>
+                  <Pane fx:id="complaintFlag" layoutX="150.0" layoutY="10.0" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red" />
                </children>
             </Pane>
             <Pane fx:id="textPane" layoutY="175.0" prefHeight="75.0" prefWidth="174.0">
                <children>
-                  <Text fx:id="productName" layoutX="14.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Gotham Pro Black; -fx-font-size: 16;" text="Text" wrappingWidth="145.12972831726074" />
+                  <VBox>
+                     <children>
+                        <Text fx:id="productName" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Gotham Pro Black; -fx-font-size: 16;" text="Name" textAlignment="CENTER" wrappingWidth="145.12972831726074">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fx:id="productAmount" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Gotham Pro Black; -fx-font-size: 16;" text="Amount" wrappingWidth="145.12972831726074" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
                </children>
             </Pane>
          </children>

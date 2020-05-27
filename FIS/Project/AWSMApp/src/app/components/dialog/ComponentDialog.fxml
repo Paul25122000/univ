@@ -1,93 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="762.0" prefWidth="948.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-   <stylesheets>
-      <URL value="@/app/css/style.css" />
-   </stylesheets>
-   <children>
-      <BorderPane layoutX="-24.0" layoutY="-9.0" prefHeight="772.0" prefWidth="930.0" style="-fx-background-color: transparent;">
-         <center>
-            <AnchorPane fx:id="rootPane" prefHeight="720.0" prefWidth="930.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
-               <children>
-                  <Pane layoutX="56.0" layoutY="60.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian,#C7C9EB, 50, 0, 0, 1);">
-                     <children>
-                        <Pane layoutX="50.0" layoutY="14.0" prefHeight="266.0" prefWidth="823.0">
-                           <children>
-                              <Label layoutX="308.0" layoutY="50.0" prefHeight="20.0" prefWidth="72.0" styleClass="descriptionText" text="Categorie" textFill="#b7b7b7" />
-                              <Button fx:id="updateBtn" layoutX="313.0" layoutY="198.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="148.0" styleClass="updateBtn" text="modifica" />
-                              <Label layoutX="308.0" layoutY="81.0" prefHeight="20.0" prefWidth="64.0" styleClass="descriptionText" text="Provizor" textFill="#b7b7b7" />
-                              <Label layoutX="308.0" layoutY="113.0" prefHeight="20.0" prefWidth="106.0" styleClass="descriptionText" text="Stoc disponibil" textFill="#b7b7b7" />
-                              <Pane fx:id="deleteBtn" layoutX="736.0" layoutY="206.0" prefHeight="32.0" prefWidth="30.0" styleClass="deleteBtn">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Pane>
-                              <Pane fx:id="saveBtn" layoutX="489.0" layoutY="211.0" prefHeight="22.0" prefWidth="22.0" styleClass="saveBtn">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Pane>
-                              <Pane fx:id="cancelBtn" layoutX="546.0" layoutY="211.0" prefHeight="22.0" prefWidth="22.0" styleClass="cancel">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Pane>
-                              <ComboBox fx:id="componentsEditCombo" layoutX="415.0" layoutY="48.0" prefWidth="150.0" />
-                              <TextField fx:id="providerInput" layoutX="415.0" layoutY="78.0" prefHeight="20.0" prefWidth="149.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-border-style: none;" text="x" />
-                              <TextField fx:id="amountInput" layoutX="415.0" layoutY="110.0" prefHeight="26.0" prefWidth="41.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-style: none;" text="x" />
-                              <TextField fx:id="nameInput" layoutX="302.0" prefHeight="46.0" prefWidth="488.0" style="-fx-border-color: transparent; -fx-border-style: none; -fx-background-color: transparent; -fx-font-family: Gotham Pro Black; -fx-font-size: 25;" text="Numele Produsului" />
-                              <TextField fx:id="priceInput" layoutX="302.0" layoutY="14.0" prefHeight="46.0" prefWidth="488.0" style="-fx-border-color: transparent; -fx-border-style: none; -fx-background-color: transparent; -fx-font-family: Gotham Pro Black; -fx-font-size: 25;" text="Numele Produsului" visible="false" />
-                              <Pane layoutX="735.0" layoutY="69.0" prefHeight="32.0" prefWidth="32.0" styleClass="warranty" />
-                              <Pane fx:id="imageHolder" layoutX="14.0" layoutY="17.0" prefHeight="220.0" prefWidth="235.0" />
-                              <Text fill="#b7b7b7" layoutX="635.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="descriptionText" text="Acest produs" />
-                              <Text fill="#b7b7b7" layoutX="635.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="descriptionText" text="are garantie" />
-                              <Text fx:id="reportBtn" fill="#2196f3" layoutX="635.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="descriptionText" text="Raporteaza defect" underline="true">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Text>
-                              <CheckBox fx:id="paidCheckbox" layoutX="415.0" layoutY="145.0" mnemonicParsing="false" text="Platit" />
-                              <CheckBox fx:id="deliveredCheckbox" layoutX="308.0" layoutY="145.0" mnemonicParsing="false" text="Livrat" />
-                           </children>
+<AnchorPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/app/css/style.css" />
+    </stylesheets>
+    <children>
+        <BorderPane style="-fx-background-color: transparent;">
+            <center>
+                <AnchorPane fx:id="rootPane" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Pane styleClass="dialogCard">
+                            <children>
+                                <Pane prefHeight="320.0" prefWidth="800.0">
+                                    <children>
+                                        <Button fx:id="updateBtn" layoutX="308.0" layoutY="272.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="148.0" styleClass="updateBtn" text="modifica" />
+                                        <Pane fx:id="saveBtn" layoutX="490.0" layoutY="280.0" prefHeight="22.0" prefWidth="22.0" styleClass="saveBtn" />
+                                        <Pane fx:id="cancelBtn" layoutX="543.0" layoutY="280.0" prefHeight="22.0" prefWidth="22.0" styleClass="cancel" />
+
+                                        <Label layoutX="308.0" layoutY="74.0" prefHeight="20.0" prefWidth="106.0" styleClass="descriptionText" text="Categorie" textFill="#b7b7b7" />
+                                        <Label layoutX="308.0" layoutY="106.0" prefHeight="20.0" prefWidth="106.0" styleClass="descriptionText" text="Furnizor" textFill="#b7b7b7" />
+                                        <Label layoutX="308.0" layoutY="136.0" prefHeight="20.0" prefWidth="106.0" styleClass="descriptionText" text="Pret" textFill="#b7b7b7" />
+                                        <Label layoutX="308.0" layoutY="166.0" prefHeight="20.0" prefWidth="106.0" styleClass="descriptionText" text="Stoc disponibil" textFill="#b7b7b7" />
+                                        <Label layoutX="308.0" layoutY="196.0" prefHeight="20.0" prefWidth="106.0" styleClass="descriptionText" text="Stoc disponibil" textFill="#b7b7b7" />
+
+                                        <TextField fx:id="nameInput" layoutX="290.0" layoutY="5.0" prefHeight="43.0" prefWidth="430.0" style="-fx-font-family: Gotham Pro Black; -fx-font-size: 25;" styleClass="editText" text="Component name" />
+                                        <ComboBox fx:id="categoryCombo" layoutX="424.0" layoutY="70.0" prefWidth="150.0" />
+                                        <TextField fx:id="providerInput" layoutX="415.0" layoutY="100.0" prefHeight="20.0" prefWidth="150.0" styleClass="editText" text="provider" />
+                                        <TextField fx:id="priceInput" layoutX="415.0" layoutY="130.0" prefHeight="20.0" prefWidth="150.0" styleClass="editText" text="price" />
+                                        <TextField fx:id="amountInput" layoutX="415.0" layoutY="160.0" prefHeight="20.0" prefWidth="150.0" styleClass="editText" text="amount" />
+                                        <TextArea fx:id="commentsInput" layoutX="424.0" layoutY="190.0" prefHeight="39.0" prefWidth="348.0" />
+
+                                        <Pane fx:id="imageHolder" layoutX="14.0" layoutY="17.0" prefHeight="220.0" prefWidth="235.0" />
+                                        <CheckBox fx:id="paidCheckbox" layoutX="408.0" layoutY="243.0" mnemonicParsing="false" text="Platit" />
+                                        <CheckBox fx:id="deliveredCheckbox" layoutX="311.0" layoutY="243.0" mnemonicParsing="false" text="Livrat" />
+
+                                        <Pane fx:id="closeBtn" layoutX="756.0" layoutY="14.0" prefHeight="20.0" prefWidth="20.0" styleClass="closeBtn" />
+                                        <Pane fx:id="deleteBtn" layoutX="756.0" layoutY="280.0" prefHeight="20.0" prefWidth="20.0">
+                                            <styleClass>
+                                                <String fx:value="deleteBtn" />
+                                                <String fx:value="btn" />
+                                            </styleClass>
+                                        </Pane>
+                                    </children>
+                                </Pane>
+                            </children>
                         </Pane>
-                        <Pane fx:id="reportArea" layoutX="196.0" layoutY="287.0">
-                           <children>
-                              <Text fx:id="alegeComponenta" layoutX="32.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Alegeti componenta defectata" />
-                              <ComboBox fx:id="componentsCombo" layoutX="115.0" layoutY="79.0" prefHeight="30.0" prefWidth="236.0" styleClass="combo-box" />
-                              <Pane fx:id="feedbackHolder" layoutX="80.0" layoutY="116.0" prefHeight="60.0" prefWidth="290.0">
-                                 <children>
-                                    <Pane fx:id="sendBtn" accessibleRole="BUTTON" layoutX="43.0" layoutY="10.0" prefHeight="22.0" prefWidth="22.0" styleClass="saveBtn">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                    </Pane>
-                                    <Pane fx:id="renuntaBtn" layoutX="181.0" layoutY="10.0" prefHeight="22.0" prefWidth="22.0" styleClass="cancel">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                    </Pane>
-                                    <Text fx:id="trimiteTxt" layoutX="76.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="descriptionText" text="trimite" />
-                                    <Text fx:id="renuntaTxt" layoutX="212.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="descriptionText" text="renunta" />
-                                 </children>
-                              </Pane>
-                           </children>
-                        </Pane>
-                     </children>
-                  </Pane>
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </AnchorPane>
-         </center>
-      </BorderPane>
-      <Pane fx:id="closeBtn" layoutX="914.0" layoutY="30.0" prefHeight="33.0" prefWidth="33.0" styleClass="closeBtn" />
-   </children>
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+    </children>
 </AnchorPane>
