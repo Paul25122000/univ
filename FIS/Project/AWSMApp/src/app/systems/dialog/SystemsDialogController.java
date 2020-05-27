@@ -1,8 +1,11 @@
 package app.systems.dialog;
 
+import app.components.Component;
 import app.promotions.Promotion;
 import app.services.APIHandler;
+import app.services.ProductsLists;
 import app.systems.Systems;
+import app.systems.SystemsController;
 import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -15,9 +18,25 @@ import javafx.util.Duration;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.*;
 
 public class SystemsDialogController extends Systems {
+
+    // update values
+    @FXML
+    private TextField nameInput;
+    @FXML
+    private TextField priceInput;
+    @FXML
+    private TextField amountInput;
+    @FXML
+    private TextField ordersInput;
+    @FXML
+    private TextField deliversInput;
+    @FXML
+    private TextField warrantyInput;
+    @FXML
+    private CheckBox paidCheckbox;
 
     @FXML
     private Button updateBtn;
@@ -28,13 +47,9 @@ public class SystemsDialogController extends Systems {
     @FXML
     private Pane cancelBtn;
     @FXML
-    private ComboBox<?> componentsEditCombo;
+    private Pane sendBtn;
     @FXML
-    private TextField providerInput;
-    @FXML
-    private TextField amountInput;
-    @FXML
-    private TextField nameInput;
+    private ComboBox<?> categoryCombo;
     @FXML
     private Pane imageHolder;
     @FXML
@@ -42,21 +57,15 @@ public class SystemsDialogController extends Systems {
     @FXML
     private Pane reportArea;
     @FXML
-    private Text alegeComponenta;
+    private Text pickComponent;
     @FXML
-    private ComboBox<?> componentsCombo;
+    private ComboBox<?> warrantyCombo;
     @FXML
     private Pane feedbackHolder;
     @FXML
-    private Pane renuntaBtn;
+    private Pane abortButton;
     @FXML
     private Pane closeBtn;
-    @FXML
-    private CheckBox deliveredCheckbox;
-    @FXML
-    private CheckBox paidCheckbox;
-    @FXML
-    private TextField priceInput;
     @FXML
     private Pane giftPane;
     @FXML
@@ -65,52 +74,89 @@ public class SystemsDialogController extends Systems {
     private Pane closeGift;
     @FXML
     private Pane giftHolder;
-    public Set recordCategories;
+    @FXML
+    private Button addPromotionBtn;
     @FXML
     private Label promotionName;
     @FXML
-    private Label warrantyLabel;
+    private Label promotionProvider;
     @FXML
-    private Button addPromotionBtn;
-    Promotion promotion = null;
+    private Label promotionAmount;
+    @FXML
+    private Label promotionCategory;
+    @FXML
+    private Pane promotionImage;
 
-    public SystemsDialogController(Systems systems, Set categories, Promotion promotion) {
+    
+    public Set recordCategories;
+    public Set systemComponents = new HashSet<Object>();;
+    private Component component = null;
+    Promotion promotion = null;
+    SystemsController systemsController = null;
+    Systems updatedSystem = null;
+
+    public SystemsDialogController(Systems systems, Set categories, Promotion promotion,
+                                   SystemsController systemsController) {
         super(systems);
         this.recordCategories = categories;
         this.promotion = promotion;
+        this.systemsController = systemsController;
+        this.updatedSystem = systems;
+    }
+
+    private void setDisabled(Boolean isDisabled) {
+        categoryCombo.setDisable(isDisabled);
+        nameInput.setDisable(isDisabled);
+        priceInput.setDisable(isDisabled);
+        amountInput.setDisable(isDisabled);
+        ordersInput.setDisable(isDisabled);
+        deliversInput.setDisable(isDisabled);
+        paidCheckbox.setDisable(isDisabled);
+        warrantyInput.setDisable(isDisabled);
+
+        saveBtn.setVisible(!isDisabled);
+        cancelBtn.setVisible(!isDisabled);
     }
 
     @FXML
     public void initialize() {
-
-
-        //componente pentru garantie
-        componentsCombo.setItems(FXCollections.observableArrayList(recordCategories));
-        componentsCombo.getSelectionModel().selectFirst();
-
         reportArea.getChildren().clear();
 
+        categoryCombo.setItems(FXCollections.observableArrayList(recordCategories));
         nameInput.setText(name);
-        nameInput.setDisable(true);
-
-        componentsEditCombo.setItems(FXCollections.observableArrayList(recordCategories));
-        recordCategories.forEach(System.out::println);
-
-        componentsEditCombo.getSelectionModel().selectFirst();
-        componentsEditCombo.setDisable(true);
-
-        amountInput.setText(String.valueOf(amount));
-        amountInput.setDisable(true);
-
-        saveBtn.setVisible(false);
-        cancelBtn.setVisible(false);
-
-        paidCheckbox.setSelected(paid);
-        paidCheckbox.setDisable(true);
-
         priceInput.setText(String.valueOf(price));
-        warrantyLabel.setText(warranty+" luni");
-        if(promotion != null) {
+        amountInput.setText(String.valueOf(amount));
+        ordersInput.setText(String.valueOf(orders));
+        deliversInput.setText(String.valueOf(delivers));
+        paidCheckbox.setSelected(paid);
+        warrantyInput.setText(String.valueOf(warranty));
+        setDisabled(true);
+
+
+        var iterator = recordCategories.iterator();
+        int categoryIndex = 0;
+        while (iterator.hasNext()) {
+            if (iterator.next().equals(categoryName))
+                break;
+            categoryIndex++;
+        }
+        categoryCombo.getSelectionModel().select(categoryIndex);
+
+
+        components = components.substring(1, components.length() - 1);
+        String[] componentsArray = components.split("\\s*,\\s*");
+        int j =0;
+        for ( String item: componentsArray) {
+            component = Objects.requireNonNull(
+                    ProductsLists.getComponentById(Integer.parseInt(item)));
+            systemComponents.add(component.name);
+        }
+
+        //componente pentru garantie
+        warrantyCombo.setItems(FXCollections.observableArrayList(systemComponents));
+        warrantyCombo.getSelectionModel().selectFirst();
+
+        if (promotion != null) {
             promotionName.setText(promotion.name);
             promotionName.setVisible(true);
             giftHolder.setVisible(true);
@@ -124,82 +170,74 @@ public class SystemsDialogController extends Systems {
         ///gift trasition effect
         TranslateTransition translate = new TranslateTransition();
 
-        imageHolder.setStyle("-fx-background-radius: 15" +
-                ";-fx-background-image: url(" + image + ");" +
-                "-fx-background-position: center center;" +
-                " -fx-background-repeat: no-repeat;" +
-                "-fx-background-size: cover; ");
+        imageHolder.setStyle(String.format("-fx-background-image: url(%s);", image));
 
         //modifica
         updateBtn.setOnMouseClicked(mouseEvent -> {
-            nameInput.setDisable(false);
-            componentsEditCombo.setDisable(false);
-            amountInput.setDisable(false);
-            saveBtn.setVisible(true);
-            cancelBtn.setVisible(true);
-            providerInput.setDisable(false);
-            paidCheckbox.setDisable(false);
-            deliveredCheckbox.setDisable(false);
+            setDisabled(false);
         });
+
         //save changes
         saveBtn.setOnMouseClicked(mouseEvent -> {
-            nameInput.setDisable(true);
-            componentsEditCombo.setDisable(true);
-            providerInput.setDisable(true);
-            amountInput.setDisable(true);
-            saveBtn.setVisible(false);
-            paidCheckbox.setDisable(true);
-            deliveredCheckbox.setDisable(true);
-            cancelBtn.setVisible(false);
+            setDisabled(true);
+
+            updatedSystem.categoryId = ProductsLists.getComponentCategoryId(
+                    (String) categoryCombo.getValue());
+            updatedSystem.categoryName = (String) categoryCombo.getValue();
+            updatedSystem.name = nameInput.getText();
+            updatedSystem.amount = Integer.parseInt(amountInput.getText());
+            updatedSystem.price = Integer.parseInt(priceInput.getText());
+            updatedSystem.paid = paidCheckbox.isSelected();
+            updatedSystem.orders = Integer.parseInt(ordersInput.getText());
+            updatedSystem.delivers = Integer.parseInt(deliversInput.getText());
+            updatedSystem.warranty = Integer.parseInt(warrantyInput.getText());
 
             final String UPDATE_PARAMS = "{\n" +
                     "    \"id\": " + id + ",\r\n" +
-                    "    \"category\": \"" + componentsEditCombo.getValue() + "\",\r\n" +
-                    "    \"name\": \"" + nameInput.getText() + "\",\r\n" +
-                    "    \"amount\": " + Integer.valueOf(amountInput.getText()) + ",\r\n" +
-                    "    \"price\": " + Integer.valueOf(priceInput.getText()) + ",\r\n" +
-                    "    \"provider\": \"" + providerInput.getText() + "\",\r\n" +
-                    "    \"paid\": " + paidCheckbox.isSelected() + ",\r\n" +
-                    "    \"delivered\": " + deliveredCheckbox.isSelected() + "\"\n}";
+                    "    \"categoryId\": " + updatedSystem.categoryId + ",\r\n" +
+                    "    \"name\": \"" + updatedSystem.name + "\",\r\n" +
+                    "    \"amount\": " + updatedSystem.amount + ",\r\n" +
+                    "    \"price\": " + updatedSystem.price + ",\r\n" +
+                    "    \"paid\": " + updatedSystem.paid + ",\r\n" +
+                    "    \"orders\": " + updatedSystem.orders + ",\r\n" +
+                    "    \"delivers\": " + updatedSystem.delivers + ",\r\n" +
+                    "    \"warranty\": " + updatedSystem.warranty + "\n}";
             try {
-                APIHandler.makeRequest("UPDATE", "components", UPDATE_PARAMS);
-//                ProductsLists.push(new Systems(
-//                        id,
-//                        Integer.parseInt(categoryInput.getText()),
-//                        nameInput.getText(),
-//                        Integer.parseInt(amountInput.getText()),
-//                        Integer.parseInt(priceInput.getText()),
-//                        paidCheckbox.isSelected(),
-//                        date,
-//                        image,
-//                        providerInput.getText(),
-//                        deliveredCheckbox.isSelected(),
-//                        comments));
+                APIHandler.makeRequest("UPDATE", "systems", UPDATE_PARAMS);
+                if(ProductsLists.updateSystem(updatedSystem) != 0) {
+                    systemsController.renderAll();
+                } else {
+                    System.out.println("Was unable to update");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         //cancel btn
         cancelBtn.setOnMouseClicked(mouseEvent -> {
-            nameInput.setDisable(true);
-            componentsEditCombo.setDisable(true);
-            providerInput.setDisable(true);
-            amountInput.setDisable(true);
-            saveBtn.setVisible(false);
-            cancelBtn.setVisible(false);
-            paidCheckbox.setDisable(false);
-            deliveredCheckbox.setDisable(false);
+            setDisabled(true);
         });
         //delete btn
         deleteBtn.setOnMouseClicked(mouseEvent -> {
             try {
                 APIHandler.makeRequest("DELETE", "components", super.getDeleteJSON());
+
+                try {
+                    if( ProductsLists.deleteSystem(id) != 0) {
+                        systemsController.renderAll();
+                    } else {
+                        System.out.println("Was unable to delete");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
             Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
             // do what you have to do
             stage.close();
+
         });
         closeBtn.setOnMouseClicked(mouseEvent -> {
             Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -208,7 +246,7 @@ public class SystemsDialogController extends Systems {
         });
 
         reportBtn.setOnMouseClicked(mouseEvent -> {
-            reportArea.getChildren().addAll(alegeComponenta, componentsCombo, feedbackHolder);
+            reportArea.getChildren().addAll(pickComponent, warrantyCombo, feedbackHolder);
 
             //translate gift card to the bottom of current card
             translate.setToX(0);
@@ -218,7 +256,7 @@ public class SystemsDialogController extends Systems {
             translate.play();
         });
 
-        renuntaBtn.setOnMouseClicked(mouseEvent -> {
+        abortButton.setOnMouseClicked(mouseEvent -> {
             reportArea.getChildren().clear();
             //translate gift card
             translate.setToX(0);
@@ -230,42 +268,62 @@ public class SystemsDialogController extends Systems {
 
         //cand se apasa pe produsul cadou, animatie de popup
         giftPane.setOnMouseClicked(mouseEvent -> {
-           giftHolder.toFront();
-           translate.setToX(90);
-           translate.setToY(50);
+            giftHolder.toFront();
+            translate.setToX(90);
+            translate.setToY(50);
             translate.setDuration(Duration.millis(500));
             translate.setNode(giftHolder);
             translate.play();
-          //  ;
         });
-       closeGift.setOnMouseClicked(mouseEvent -> {
-
-           if(reportArea.getChildren().isEmpty()){
-
-               translate.setToX(0);
-               translate.setToY(0);
-               translate.setDuration(Duration.millis(500));
-               translate.setNode(giftHolder);
-               translate.play();
-               giftHolder.toBack();
-
-           }else{
-               translate.setToX(0);
-               translate.setToY(170);
-               translate.setDuration(Duration.millis(500));
-               translate.setNode(giftHolder);
-               translate.play();
-               giftHolder.toBack();
-           }
-
+        closeGift.setOnMouseClicked(mouseEvent -> {
+            if (reportArea.getChildren().isEmpty()) {
+                translate.setToX(0);
+                translate.setToY(0);
+                translate.setDuration(Duration.millis(500));
+                translate.setNode(giftHolder);
+                translate.play();
+                giftHolder.toBack();
+            } else {
+                translate.setToX(0);
+                translate.setToY(170);
+                translate.setDuration(Duration.millis(500));
+                translate.setNode(giftHolder);
+                translate.play();
+                giftHolder.toBack();
+            }
         });
 
-        if(promotion != null) {
+        if (promotion != null) {
+            promotionImage.setStyle(String.format("-fx-background-image: url(%s);", promotion.image));
             promotionName.setText(promotion.name);
-            promotionName.setVisible(true);
-        } else {
-            promotionName.setVisible(false);
+            promotionCategory.setText("Categorie: " + promotion.category);
+            promotionProvider.setText("Producător: " + promotion.provider);
+            promotionAmount.setText("Rămase: " + promotion.amount);
         }
+        for ( String item: componentsArray) {
+            systemComponents.add(Objects.requireNonNull(
+                    ProductsLists.getComponentById(Integer.parseInt(item))).name);
+        }
+        sendBtn.setOnMouseClicked(mouseEvent -> {
+            component = null;
+            for (String item : componentsArray) {
+                component = Objects.requireNonNull(
+                        ProductsLists.getComponentById(Integer.parseInt(item)));
+                if(component.name.equals(warrantyCombo.getValue().toString())) {
+                    System.out.println(component.id+", "+ component.name);
+                    final String PUT_PARAMS = "{\n" +
+                            "    \"id\": " + component.id + ",\r\n" +
+                            "    \"complaints\": " + component.complaints +1 + "\n}";
+                    try {
+                        APIHandler.makeRequest("PUT", "components/complaints", PUT_PARAMS);
+                        ProductsLists.incrementComplaints(component.id);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        });
     }
 }
 

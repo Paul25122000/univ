@@ -29,7 +29,6 @@ public class ComponentsController {
     @FXML
     private Button showAll;
 
-
     Set<String> categories = new HashSet<String>();
 
     @FXML
@@ -47,17 +46,17 @@ public class ComponentsController {
     }
 
     @FXML
-    private void search(ActionEvent event) throws IOException, JSONException {
+    private void search(ActionEvent event) throws IOException {
         renderView(((TextField) event.getSource()).getText());
     }
 
     @FXML
-    public void filter(ActionEvent event) throws IOException, JSONException {
+    public void filter(ActionEvent event) throws IOException {
         renderView(categoryBox.getValue().toString());
     }
 
     @FXML
-    void renderView(String filter) throws IOException, JSONException {
+    void renderView(String filter) throws IOException {
         wrapper.getChildren().clear();
         int layoutY = 30;
 
@@ -79,7 +78,7 @@ public class ComponentsController {
                     || filter.equals(component.categoryName)
                     || component.name.toLowerCase().contains(filter.toLowerCase())) {
 
-                appendTemplate(new ComponentCardController(component, categories), layoutX, layoutY);
+                appendTemplate(new ComponentCardController(component, categories, this), layoutX, layoutY);
                 layoutY += (occurrences + 1) % 3 != 0 ? 0 : 270;
                 occurrences++;
             }
@@ -87,7 +86,7 @@ public class ComponentsController {
     }
 
     @FXML
-    void renderAll() throws IOException, JSONException {
+    public void renderAll() throws IOException, JSONException {
         renderView("none");
     }
 

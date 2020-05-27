@@ -23,8 +23,6 @@ public class RecentItemsController {
         nameRecord=component.name;
         dateRecord=component.date;
         amountRecord=component.amount;
-
-        System.out.println(system +" "+ component);
     }
     @FXML
     public void initialize(){

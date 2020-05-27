@@ -68,7 +68,8 @@ public class HomeController extends WorkspaceController {
                         record.getString("image"),
                         record.getString("provider"),
                         record.getBoolean("delivered"),
-                        record.getString("comments")));
+                        record.getString("comments"),
+                        record.getInt("complaints")));
             }
         }
         if (ProductsLists.getSystemsAmount() == 0) {
@@ -90,7 +91,8 @@ public class HomeController extends WorkspaceController {
                         record.getInt("orders"),
                         record.getInt("delivers"),
                         record.getInt("warranty"),
-                        record.getString("categoryParent")));
+                        record.getString("categoryParent"),
+                        record.getString("components")));
             }
         }
         if (ProductsLists.getPromotionsAmount() == 0) {

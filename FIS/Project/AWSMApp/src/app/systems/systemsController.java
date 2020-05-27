@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import org.json.JSONException;
 
 import java.io.*;
 import java.util.*;
@@ -47,17 +46,17 @@ public class SystemsController {
     }
 
     @FXML
-    private void search(ActionEvent event) throws IOException, JSONException {
+    private void search(ActionEvent event) throws IOException {
         renderView(((TextField) event.getSource()).getText());
     }
 
     @FXML
-    public void filter(ActionEvent event) throws IOException, JSONException {
+    public void filter(ActionEvent event) throws IOException {
         renderView(categoryBox.getValue().toString());
     }
 
     @FXML
-    void renderView(String filter) throws IOException, JSONException {
+    void renderView(String filter) throws IOException {
         wrapper.getChildren().clear();
         int layoutY = 30;
 
@@ -78,7 +77,7 @@ public class SystemsController {
                     || filter.equals(systems.categoryName)
                     || systems.name.toLowerCase().contains(filter.toLowerCase())) {
 
-                appendTemplate(new SystemsCardController(systems, categories), layoutX, layoutY);
+                appendTemplate(new SystemsCardController(systems, categories, this), layoutX, layoutY);
                 layoutY += (occurrences + 1) % 3 != 0 ? 0 : 270;
                 occurrences++;
             }
@@ -86,12 +85,12 @@ public class SystemsController {
     }
 
     @FXML
-    void renderAll() throws IOException, JSONException {
+    public void renderAll() throws IOException {
         renderView("none");
     }
 
     @FXML
-    public void initialize() throws IOException, JSONException {
+    public void initialize() throws IOException {
         renderView("none");
 
         categoryBox.setItems(FXCollections.observableArrayList(categories));

@@ -8,6 +8,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import java.net.URL?>
+<?import java.lang.String?>
 <AnchorPane fx:id="anchorRoot" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="app.home.HomeController">
     <stylesheets>
@@ -48,8 +49,11 @@
                         <Font name="Open Sans Semibold" size="36.0"/>
                     </font>
                 </Text>
-                <Pane layoutX="361.0" layoutY="150.0" prefHeight="187.0" prefWidth="220.0"
-                      styleClass="dashboardCardRed">
+                <Pane layoutX="361.0" layoutY="150.0" prefHeight="187.0" prefWidth="220.0">
+                    <styleClass>
+                        <String fx:value="dashboardCardRed"/>
+                        <String fx:value="btn"/>
+                    </styleClass>
                     <children>
                         <Text fill="WHITE" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0"
                               styleClass="descriptionText" text="Componente disponibile"/>

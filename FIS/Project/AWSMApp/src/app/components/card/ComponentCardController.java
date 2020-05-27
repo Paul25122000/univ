@@ -1,21 +1,13 @@
 package app.components.card;
 
 import app.components.Component;
+import app.components.ComponentsController;
+import app.services.DialogHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import app.components.dialog.ComponentDialogController;
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.Set;
 
 public class ComponentCardController extends Component {
@@ -31,47 +23,39 @@ public class ComponentCardController extends Component {
 
     @FXML
     private Text productName;
+    @FXML
+    private Text productAmount;
+
+
+    @FXML
+    private Pane complaintFlag;
 
     Set recordCategories;
     Component component = null;
-    public ComponentCardController(Component component, Set categories) throws IOException, JSONException {
+    ComponentsController componentsController = null;
+    public ComponentCardController(Component component, Set categories,
+                                   ComponentsController componentsController) {
         super(component);
         this.component = component;
         this.recordCategories = categories;
+        this.componentsController = componentsController;
     }
 
     @FXML
     public Pane initialize() {
         productName.setText(name);
-        imagePane.setStyle("-fx-background-image: url(" + image + ");" +
-                "-fx-background-repeat: no-repeat;" +
-                "-fx-background-size: cover");
-        paneContainer.setOnMouseClicked(mouseEvent -> {
-            ComponentDialogController componentDialogController = null;
-            try {
-                componentDialogController = new ComponentDialogController(component, recordCategories);
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
+        imagePane.setStyle(String.format("-fx-background-image: url(%s);", image));
+        productAmount.setText("Stock: "+amount);
+        complaintFlag.setVisible(complaints > 0);
+        complaintFlag.toFront();
 
+        paneContainer.setOnMouseClicked(mouseEvent -> {
+            ComponentDialogController componentDialogController =
+                    new ComponentDialogController(component, recordCategories, componentsController);
             FXMLLoader loader =
                     new FXMLLoader(getClass().getResource("/app/components/dialog/ComponentDialog.fxml"));
             loader.setController(componentDialogController);
-
-            Stage stage = new Stage();
-            Parent dialog = null;
-            try {
-                dialog = loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            Scene scene = new Scene(dialog);
-            scene.setFill(Color.TRANSPARENT);
-            stage.setScene(scene);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.initOwner(((Node) mouseEvent.getSource()).getScene().getWindow());
-            stage.showAndWait();
+            DialogHelper.loadDialog(mouseEvent, loader);
         });
         return paneContainer;
     }

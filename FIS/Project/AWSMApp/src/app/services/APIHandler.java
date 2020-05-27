@@ -34,7 +34,7 @@ public class APIHandler {
         System.out.println(BODY);
         String requestAPI = API + endpoint;
         if (METHOD.equals("UPDATE")) {
-            requestAPI = requestAPI + "update";
+            requestAPI = requestAPI + "/update";
             METHOD = "PUT";
         }
         URL url = new URL(requestAPI);

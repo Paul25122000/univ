@@ -1,5 +1,6 @@
 package app.addProduct;
 
+import app.components.Component;
 import app.services.APIHandler;
 import app.services.ProductsLists;
 import app.systems.Systems;
@@ -7,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +16,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class AddProductController {
@@ -21,6 +24,8 @@ public class AddProductController {
 
     public CheckBox isPaid;
     public CheckBox isDelivered;
+    public Label providerLabel;
+    public Label warrantyLabel;
     @FXML
     private RadioButton isSystem;
     @FXML
@@ -82,7 +87,7 @@ public class AddProductController {
         if (isComponent.isSelected()) {
             int categoryId = ProductsLists.getComponentCategoryId(categorySelect.getValue());
             final String POST_PARAMS = "{\n" +
-                    "    \"category\": " + categoryId + ",\r\n" +
+                    "    \"categoryId\": " + categoryId + ",\r\n" +
                     "    \"name\": \"" + nameInput.getText() + "\",\r\n" +
                     "    \"provider\": \"" + providerInput.getText() + "\",\r\n" +
                     "    \"amount\": " + (int) (Math.round(amountInput.getValue())) + ",\r\n" +
@@ -91,37 +96,54 @@ public class AddProductController {
                     "    \"delivered\": " + isDelivered.isSelected() + ",\r\n" +
                     "    \"comments\": \"" + deliveryComments.getText() + "\"\n}";
 
-            APIHandler.makeRequest("PUT", "components", POST_PARAMS);
-
+            String response =
+                    APIHandler.makeRequest("PUT", "components", POST_PARAMS).toString();
+            JSONObject record = new JSONObject(response);
+            ProductsLists.push(new Component(
+                    record.getInt("id"),
+                    record.getInt("categoryId"),
+                    record.getString("categoryName"),
+                    record.getString("name"),
+                    record.getInt("amount"),
+                    record.getInt("price"),
+                    record.getBoolean("paid"),
+                    record.getString("date"),
+                    record.getString("image"),
+                    record.getString("provider"),
+                    record.getBoolean("delivered"),
+                    record.getString("comments"),
+                    record.getInt("complaints")
+            ));
 
         } else if (isSystem.isSelected()) {
             int categoryId = ProductsLists.getSystemCategoryId(categorySelect.getValue());
             final String POST_PARAMS = "{\n" +
-                    "    \"category\": " + categoryId + ",\r\n" +
+                    "    \"categoryId\": " + categoryId + ",\r\n" +
                     "    \"name\": \"" + nameInput.getText() + "\",\r\n" +
                     "    \"amount\": " + (int) (Math.round(amountInput.getValue())) + ",\r\n" +
                     "    \"price\": " + (int) (Math.round(priceInput.getValue())) + ",\r\n" +
+                    "    \"paid\": " + isPaid.isSelected() + ",\r\n" +
                     "    \"warranty\": " + (int) (Math.round(warrantyInput.getValue())) + "\n}";
 
-            StringBuilder response =
-                    APIHandler.makeRequest("PUT", "systems", POST_PARAMS);
-
+            String response =
+                    APIHandler.makeRequest("PUT", "systems", POST_PARAMS).toString();
             JSONObject record = new JSONObject(response);
-//            ProductsLists.push(new Systems(
-//                    record.getInt("id"),
-//                    record.getInt("categoryId"),
-//                    record.getString("categoryName"),
-//                    record.getString("name"),
-//                    record.getInt("amount"),
-//                    record.getInt("price"),
-//                    record.getBoolean("paid"),
-//                    record.getString("date"),
-//                    record.getString("image"),
-//                    record.getInt("orders"),
-//                    record.getInt("delivers"),
-//                    record.getInt("warranty"),
-//                    record.getString("categoryParent")
-//            ));
+            ProductsLists.push(new Systems(
+                    record.getInt("id"),
+                    record.getInt("categoryId"),
+                    record.getString("categoryName"),
+                    record.getString("name"),
+                    record.getInt("amount"),
+                    record.getInt("price"),
+                    record.getBoolean("paid"),
+                    record.getString("date"),
+                    record.getString("image"),
+                    record.getInt("orders"),
+                    record.getInt("delivers"),
+                    record.getInt("warranty"),
+                    record.getString("categoryParent"),
+                    record.getString("components")
+            ));
         }
     }
 
@@ -134,6 +156,8 @@ public class AddProductController {
         priceInput.setEditable(true);
         warrantyInput.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 48, 0, 1));
         warrantyInput.setEditable(true);
+        warrantyHBOX.getChildren().clear();
+        categorySelect.setItems(FXCollections.observableArrayList(componentsCategories));
     }
 
 
@@ -142,19 +166,17 @@ public class AddProductController {
         if (isComponent.isSelected()) {
             categorySelect.setItems(FXCollections.observableArrayList(componentsCategories));
             categorySelect.setStyle("-fx-background-color: FFFFFF;-fx-effect: dropshadow(gaussian,rgba(8,88,207,0.08),7,0,0,5 ); -fx-font-family: 'Arial';-fx-font-size: 13;-fx-text-fill: #bebebe");
-
-            statusHBOX.getChildren().addAll(statusText, isPaid, isDelivered);
+            statusHBOX.getChildren().add(isDelivered);
             deliveryCommentsHBOX.getChildren().addAll(deliveryCommentsText, deliveryComments);
-            providerHBOX.setVisible(true);
-            warrantyHBOX.setVisible(false);
+            providerHBOX.getChildren().addAll(providerLabel, providerInput);
+            warrantyHBOX.getChildren().clear();
         } else if (isSystem.isSelected()) {
-
             categorySelect.setItems(FXCollections.observableArrayList(systemsCategories));
             categorySelect.setStyle("-fx-background-color: FFFFFF;-fx-effect: dropshadow(gaussian,rgba(8,88,207,0.08),7,0,0,5 );-fx-font-family: 'Arial';-fx-font-size: 13; -fx-text-fill: #bebebe");
-            statusHBOX.getChildren().clear();
+            statusHBOX.getChildren().remove(isDelivered);
             deliveryCommentsHBOX.getChildren().clear();
-            providerHBOX.setVisible(false);
-            warrantyHBOX.setVisible(true);
+            providerHBOX.getChildren().clear();
+            warrantyHBOX.getChildren().addAll(warrantyLabel, warrantyInput);
         }
     }
 }
