@@ -1,3 +1,5 @@
+package task1;
+
 public class DepositThread extends Thread {
     private BankAccount bankAccount;
 

@@ -1,3 +1,5 @@
+package task1;
+
 public class BankAccount {
 
     private int amount;

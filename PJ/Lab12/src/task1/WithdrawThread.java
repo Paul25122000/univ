@@ -1,3 +1,5 @@
+package task1;
+
 public class WithdrawThread extends Thread {
     private BankAccount bankAccount;
 
