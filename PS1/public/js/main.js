@@ -12,9 +12,9 @@ async function getRecordsAsync(url) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const api = "http://" + window.location.hostname;
+    const api = 'https://tonu.rocks/school/GreenHouse/api/';
     var items = document.querySelectorAll('.data .item b');
-    getRecordsAsync(api + ":3000/preferences/0")
+    getRecordsAsync(api + "preferences/")
         .then(data => {
             document.querySelector('#wall .heading span').innerHTML = data.current;
             items[0].innerHTML = data.light;

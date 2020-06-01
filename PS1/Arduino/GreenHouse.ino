@@ -168,11 +168,11 @@ void transmitSerial() {
   }
   else
   {
-    Serial.print(lightValue); Serial.print("-");
-    Serial.print(lightSet); Serial.print("-");
-    Serial.print(temperatureValue); Serial.print("-");
-    Serial.print(temperatureSet); Serial.print("-");
-    Serial.print(waterValue); Serial.print("-");
+    Serial.print(lightValue); Serial.print("_");
+    Serial.print(lightSet); Serial.print("_");
+    Serial.print(temperatureValue); Serial.print("_");
+    Serial.print(temperatureSet); Serial.print("_");
+    Serial.print(waterValue); Serial.print("_");
     Serial.print(waterSet); Serial.print("\n");
   }
 }

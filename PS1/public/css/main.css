@@ -27,11 +27,15 @@
   align-items: center;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 body {
   font-family: sans-serif;
   padding: 0;
   margin: 0;
-  min-height: 100vh;
+  min-height: calc(100vh - 30px);
   background: radial-gradient(#3f51b5 3px, transparent 4px), radial-gradient(#3f51b5 3px, transparent 4px), linear-gradient(#fff 4px, transparent 0), linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px), linear-gradient(-45deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px), #fff;
   background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
   background-position: 55px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
@@ -172,48 +176,53 @@ header #slide-out .divider {
 }
 
 #wall {
-  padding: 0 30px;
+  width: calc(100% - 30px);
+  max-width: 500px;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  padding: 10px 20px;
+  margin: 40px auto;
 }
-@media screen and (max-width: 425px) {
-  #wall {
-    padding: 0 15px;
-  }
+#wall .heading {
+  height: 54px;
+  margin: 10px 0 30px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: whitesmoke;
 }
-#wall .pick_time {
-  margin: 20px 0 60px;
-  padding: 10px 15px;
-}
-#wall .pick_time > span {
-  font-size: 18px;
-}
-#wall .tabs_container > div {
-  padding: 0;
-}
-#wall .tabs {
-  border-radius: 4px;
-}
-#wall .tabs .tab a {
+#wall .heading h6 {
+  width: 37%;
+  height: 100%;
+  margin: 0;
+  background-color: #3f51b5;
   color: white;
-  background-color: transparent;
-}
-#wall .tabs .indicator {
-  background-color: #ff9800;
-}
-#wall #logs {
-  margin: 0 auto 40px;
-}
-#wall #logs .log {
-  padding: 10px;
+  padding: 0 10px;
   box-sizing: border-box;
 }
-#wall #logs .log i:hover {
-  color: #f44336;
+#wall .heading span {
+  font-size: 16px;
+  padding: 0 10px;
+  width: 63%;
+  box-sizing: border-box;
+  text-align: center;
 }
-@media screen and (max-width: 374px) {
-  #wall .date_cell {
-    display: none;
-  }
+#wall .data {
+  margin-top: 20px;
+}
+#wall .data .item {
+  margin: 15px 0;
+  background: whitesmoke;
+  border-radius: 3px;
+  padding: 10px 10px;
+  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px -4px rgba(0, 0, 0, 0.14), 0 1px 6px 0px rgba(0, 0, 0, 0.12);
+}
+#wall .data .item span {
+  color: #3f51b5;
+  font-size: 16px;
+  font-weight: 500;
+}
+#wall .data .item b {
+  font-size: 16px;
 }
 
-/*# sourceMappingURL=logs.css.map */
+/*# sourceMappingURL=main.css.map */
