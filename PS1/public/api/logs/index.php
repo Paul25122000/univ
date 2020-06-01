@@ -16,20 +16,31 @@ function listData()
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
-        $stmt->bind_result($id, $culture_id, $pref_id, $pref_name, $timestamp,
-            $log_light, $pref_light, $log_temperature, $pref_temperature, $log_water, $pref_water);
+        $stmt->bind_result(
+            $id,
+            $culture_id,
+            $pref_id,
+            $pref_name,
+            $timestamp,
+            $log_light,
+            $pref_light,
+            $log_temperature,
+            $pref_temperature,
+            $log_water,
+            $pref_water
+        );
         $json_array = [];
         while ($stmt->fetch()) {
             $data = [
-            	'id' => $id,
-            	'name' => $pref_name,
-            	'timestamp' => $timestamp,
-            	'lightValue' => $log_light,
-            	'lightSet' => $pref_light,
-            	'temperatureValue' => $log_temperature,
-            	'temperatureSet' => $pref_temperature,
-            	'waterValue' => $log_water,
-            	'waterSet' => $pref_water
+                'id' => $id,
+                'name' => $pref_name,
+                'timestamp' => $timestamp,
+                'lightValue' => $log_light,
+                'lightSet' => $pref_light,
+                'temperatureValue' => $log_temperature,
+                'temperatureSet' => $pref_temperature,
+                'waterValue' => $log_water,
+                'waterSet' => $pref_water
             ];
             array_push($json_array, $data);
         }
@@ -43,17 +54,15 @@ function listData()
 function postRecord($record)
 {
     global $conn;
-    $date = new DateTime("now", new DateTimeZone('Europe/Bucharest') );
+    $date = new DateTime("now", new DateTimeZone('Europe/Bucharest'));
     $timestamp = $date->format('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO `GH_logs` (`timestamp`, `light_value`, `light_set`, `temperature_value`, `temperature_set`, `water_value`, `water_set`)
-          VALUES ('$timestamp',
-          '$record->lightValue',
-          '$record->lightSet',
-          '$record->temperatureValue',
-          '$record->temperatureSet',
-          '$record->waterValue',
-          '$record->waterSet')";
+    $sql = "INSERT INTO `GH_logs` (`culture_id`, `timestamp`, `light`, `temperature`, `water`)
+          VALUES ($record->cultureId,
+                '$timestamp',
+                '$record->light',
+                '$record->temperature',
+                '$record->water')";
     if ($conn->query($sql) === TRUE) {
         echo json_encode($record);
     } else {
@@ -65,7 +74,7 @@ function deleteRecord($record)
 {
     global $conn;
     $deleteAll = isset($_GET["deleteAll"]);
-    if($deleteAll)
+    if ($deleteAll)
         $sql = "DELETE FROM `GH_logs` WHERE 1";
     else
         $sql = "DELETE FROM `GH_logs` WHERE id=$record->id";

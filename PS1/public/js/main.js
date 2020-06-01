@@ -13,20 +13,24 @@ async function getRecordsAsync(url) {
 
 document.addEventListener('DOMContentLoaded', function () {
     // const api = 'https://tonu.rocks/school/GreenHouse/api/';
-    const api = 'http://192.168.64.6/public/api/preferences/';
+    const api = 'http://192.168.64.6/univ/PS1/public/api/preferences/';
     var items = document.querySelectorAll('.data .item b');
     getRecordsAsync(api)
         .then(data => {
-            document.querySelector('#wall .heading span').innerHTML = data.current;
-            items[0].innerHTML = data.light;
-            items[1].innerHTML = data.temperature;
-            items[2].innerHTML = data.water;
-            M.updateTextFields();
+            data.forEach(preference => {
+                if (preference.selected) {
+                    document.querySelector('#wall .heading span').innerHTML = preference.name;
+                    items[0].innerHTML = preference.light;
+                    items[1].innerHTML = preference.temperature;
+                    items[2].innerHTML = preference.water;
+                    M.updateTextFields();
+                }
+            });
         });
 
     var navElems = document.querySelectorAll('.sidenav')
-        navOptions = {
-            "edge": "right"
-        },
+    navOptions = {
+        "edge": "right"
+    },
         instances = M.Sidenav.init(navElems, navOptions);
 });

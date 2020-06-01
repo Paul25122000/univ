@@ -1,7 +1,8 @@
-const API = "http://" + window.location.hostname;
+
+// const api = 'https://tonu.rocks/school/GreenHouse/api/';
+const api = 'http://192.168.64.6/univ/PS1/public/api/preferences/';
 
 var updatePreferences,
-    likePost,
     deletePreference,
     nearest = (name, node) => {
         while (node.className.indexOf(name) == -1 && parent != null)
@@ -10,13 +11,13 @@ var updatePreferences,
     },
     updateCurrentAsync = (record) => {
         data = {
-            "current": record.name,
-            "currentId": record.id,
+            "name": record.name,
+            "selected": 1,
             "light": record.light,
             "temperature": record.temperature,
             "water": record.water
         }
-        fetch(API + ':3000/preferences/0', {
+        fetch(api + ':3000/preferences/0', {
             headers: { "Content-type": "application/json" },
             method: 'PATCH',
             body: JSON.stringify(data)
@@ -33,73 +34,71 @@ async function getRecordsAsync(url) {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    var inputs = document.querySelectorAll('.input-field input[required]'),
-        selElems = document.querySelectorAll('select');
+    const inputs = document.querySelectorAll('.input-field input[required]'),
+        preferencesSelect = document.querySelector('select');
 
 
     deletePreference = (id) => {
-        fetch(API + ':3000/preferences/' + id, { method: 'DELETE' });
+        fetch(api + ':3000/preferences/' + id, { method: 'DELETE' });
         location.reload();
         let el = event.currentTarget.parentElement,
             trigger = document.querySelector('.select-dropdown.dropdown-trigger');
         // el.parentElement.removeChild(el);
 
-        // currentId = getRecordsAsync(API + ':3000/preferences/0')
+        // currentId = getRecordsAsync(api + ':3000/preferences/0')
         //     .then(data => {
         //         trigger.value = data.current;
         //     })
 
     };
-    var addIcon = (element, item) => {
-        let parent = item.parentElement;
+    const addIcon = (element) => {
+        let parent = element.parentElement;
         parent.className = 'd_fl a_c j_sb';
-        parent.innerHTML += `<i class="material-icons clickable" onclick="deletePreference('${element.id}')">delete</i>`
+        parent.innerHTML += `<i class="material-icons clickable" onclick="deletePreference('${element?.id}')">delete</i>`
     }
-    getRecordsAsync(API + ":3000/preferences")
-        .then(path => {
-            path.forEach(element => {
-                if (element.current != undefined) {
-                    current = element.current;
-                    return;
-                }
-                let selected = '';
-                element.name == current ? selected = 'selected' : '';
-                selElems[0].innerHTML += `
-                        <option data-id="${element.id}" ${selected} value="${element.name}">${element.name}</option>
-                    `
-                if (element.name == current) {
+    getRecordsAsync(api)
+        .then(response => {
+            let selectedPreference = null;
+            response.forEach(element => {
+
+                // get selected preference
+                if (element.selected) {
+                    console.log(element)
+                    selectedPreference = element.current;
                     inputs[0].value = element.light;
                     inputs[1].value = element.temperature;
                     inputs[2].value = element.water;
                 }
+                preferencesSelect.innerHTML +=
+                    `<option data-id="${element.id}" ${element.selected ? 'selected' : ''}
+                    value="${element.name}">${element.name}</option>`
+
             });
             M.updateTextFields();
-            M.FormSelect.init(selElems)
+            M.FormSelect.init(preferencesSelect)
             let list = document.querySelectorAll(".dropdown-content span")
-            for (let i = 0; i < path.length - 1; i++) {
-                addIcon(path[i + 1], list[i]);
-            }
             list = document.querySelectorAll(".dropdown-content span");
             list.forEach(item => {
-                item.addEventListener("click", function () {
-
+                addIcon(item)
+                console.log(item)
+                item.onclick = () => {
                     let currentName = this.innerText.replace('\ndelete', ''),
                         origin = document.querySelector('[value="' + currentName + '"]'),
                         dataId = origin.getAttribute('data-id');
 
-                    currentId = getRecordsAsync(API + ':3000/preferences/' + dataId)
+                    currentId = getRecordsAsync(api + ':3000/preferences/' + dataId)
                         .then(data => {
                             updateCurrentAsync(data);
                             inputs[0].value = data.light;
                             inputs[1].value = data.temperature;
                             inputs[2].value = data.water;
                         });
-
-                });
+                }
             })
         });
+
     updatePreferences = () => {
-        currentId = getRecordsAsync(API + ':3000/preferences/0')
+        currentId = getRecordsAsync(api + ':3000/preferences/0')
             .then(data => {
                 var record = new Object();
                 record = {
@@ -107,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     "temperature": Number(inputs[1].value),
                     "water": Number(inputs[2].value)
                 }
-                fetch(API + ':3000/preferences/' + data.currentId, {
+                fetch(api + ':3000/preferences/' + data.currentId, {
                     headers: { 'Content-Type': 'application/json' },
                     method: "PATCH",
                     body: JSON.stringify(record)
@@ -119,6 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
         navOptions = {
             "edge": "right"
         };
-        M.Sidenav.init(navElems, navOptions);
+    M.Sidenav.init(navElems, navOptions);
 
 });

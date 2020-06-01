@@ -1,14 +1,4 @@
-// .icon_close:before {
-//     content: url(../assets/close.svg);
-// }
-
-// .icon_like:before {
-//     content: url(../assets/like.svg);
-// }
-
-// .icon_dislike:before {
-//     content: url(../assets/dislike.svg);
-// }
+@use 'partitials/theme';
 @use 'partitials/global';
 
 #wall {
@@ -54,6 +44,10 @@
                 position: absolute;
                 right: 10px;
                 z-index: 1;
+
+                &:hover {
+                    color: theme.$danger;
+                }
             }
 
             &.selected i {

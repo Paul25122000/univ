@@ -3,27 +3,26 @@
 include '../../modules/config.php';
 $method = $_SERVER['REQUEST_METHOD'];
 
-
-$date = new DateTime("now", new DateTimeZone('Europe/Bucharest') );
-$timestamp = $date->format('Y-m-d H:i:s');
-
 function listData()
 {
-    global $conn, $table;
+    global $conn;
     try {
         $stmt = $conn->prepare("SELECT * FROM GH_preferences");
         $stmt->execute();
-        $stmt->bind_result($id, $current, $currentId, $light, $temperature, $water);
-        $stmt->fetch();
-        $data = [
-        	'id' => $id,
-        	'current' => $current,
-        	'time' => $currentId,
-        	'light' => $light,
-        	'temperature' => $temperature,
-        	'water' => $water
-        ];
-        echo json_encode($data);
+        $stmt->bind_result($id, $name, $selected, $light, $temperature, $water);
+        $json_array = [];
+        while ($stmt->fetch()) {
+            $data = [
+                'id' => $id,
+                'name' => $name,
+                'selected' => $selected,
+                'light' => $light,
+                'temperature' => $temperature,
+                'water' => $water
+            ];
+            array_push($json_array, $data);
+        }
+        echo json_encode($json_array);
     } catch (mysqli_sql_exception $e) {
         echo "MySQLi Error Code: " . $e->getCode() . "<br />";
         echo "Exception Msg: " . $e->getMessage();
@@ -37,8 +36,8 @@ function postRecord($record)
     $t = time();
     $submit_time = date("Y-m-d-H:i:s", $t);
 
-    $sql = "INSERT INTO GH_preferences (`current`, `currentId`, `light`, `temperature`, `water`)
-          VALUES ('$record->current', '$record->currentId', '$record->light', '$record->temperature', '$record->water')";
+    $sql = "INSERT INTO GH_preferences (`name`, `currentId`, `light`, `temperature`, `water`)
+          VALUES ('$record->name', '$record->currentId', '$record->light', '$record->temperature', '$record->water')";
     if ($conn->query($sql) === TRUE) {
         echo json_encode($record);
     } else {
