@@ -6,7 +6,7 @@ var updateLogsView, makeLog, likeLog, deleteLog, deleteLog, setFilter,
     }
 
 // api = 'https://tonu.rocks/school/GreenHouse/api/logs/';
-const api = 'http://192.168.64.6/public/api/logs/';
+const api = 'http://192.168.64.6/univ/PS1/public/api/logs/';
 
 var logs = []
 var lastLogId;
@@ -23,6 +23,7 @@ const updateLogsCollection = (data, container, type, isOldLog) => {
         logs.push(data)
     let row =
         `<tr class="log">
+            <td>${data.name}</td>
             <td class="date_cell">${data.timestamp.split(" ")[0]}</td>
             <td>${data.timestamp.split(" ")[1]}</td>`;
     switch (type) {

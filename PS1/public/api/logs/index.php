@@ -8,20 +8,28 @@ function listData()
 {
     global $conn, $limit;
     try {
-        $stmt = $conn->prepare("SELECT * FROM `GH_logs` ORDER BY `timestamp` DESC LIMIT $limit");
+        $sql = "SELECT log.id, log.culture_id, pref.id, pref.name, log.timestamp,
+                log.light, pref.light, log.temperature, pref.temperature, log.water, pref.water
+                FROM GH_logs AS log 
+                    LEFT JOIN GH_preferences AS pref 
+                    ON log.culture_id = pref.id ORDER BY log.timestamp DESC LIMIT $limit";
+
+        $stmt = $conn->prepare($sql);
         $stmt->execute();
-        $stmt->bind_result($id, $timestamp, $light_value, $light_set, $temperature_value, $temperature_set, $water_value, $water_set);
+        $stmt->bind_result($id, $culture_id, $pref_id, $pref_name, $timestamp,
+            $log_light, $pref_light, $log_temperature, $pref_temperature, $log_water, $pref_water);
         $json_array = [];
         while ($stmt->fetch()) {
             $data = [
             	'id' => $id,
+            	'name' => $pref_name,
             	'timestamp' => $timestamp,
-            	'lightValue' => $light_value,
-            	'lightSet' => $light_set,
-            	'temperatureValue' => $temperature_value,
-            	'temperatureSet' => $temperature_set,
-            	'waterValue' => $water_value,
-            	'waterSet' => $water_set
+            	'lightValue' => $log_light,
+            	'lightSet' => $pref_light,
+            	'temperatureValue' => $log_temperature,
+            	'temperatureSet' => $pref_temperature,
+            	'waterValue' => $log_water,
+            	'waterSet' => $pref_water
             ];
             array_push($json_array, $data);
         }
