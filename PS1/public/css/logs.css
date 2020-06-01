@@ -27,15 +27,11 @@
   align-items: center;
 }
 
-.clickable {
-  cursor: pointer;
-}
-
 body {
   font-family: sans-serif;
   padding: 0;
   margin: 0;
-  min-height: calc(100vh - 30px);
+  min-height: calc(100vh - 64px);
   background: radial-gradient(#3f51b5 3px, transparent 4px), radial-gradient(#3f51b5 3px, transparent 4px), linear-gradient(#fff 4px, transparent 0), linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px), linear-gradient(-45deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px), #fff;
   background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
   background-position: 55px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
@@ -44,6 +40,27 @@ body {
 
 * {
   outline: none;
+}
+
+.btn:hover {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14), 0 1px 2px 0 rgba(0, 0, 0, 0.12), 0 3px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+.btn.outline {
+  background-color: white;
+  color: #3f51b5;
+  border: solid 2px #3f51b5;
+  line-height: 1;
+  box-shadow: none;
+  border-radius: 5px;
+}
+
+.switch label input[type=checkbox]:checked + .lever:after {
+  background-color: #3f51b5;
+}
+
+.switch label input[type=checkbox]:checked + .lever {
+  background-color: rgba(63, 81, 181, 0.7);
 }
 
 input[type=number] {
@@ -85,7 +102,6 @@ input[type=submit], input[type=button] {
   margin: 4px 0px 2px auto;
   background: #3f51b5;
   color: white;
-  height: 32px;
   border: none;
   font-size: 14px;
   border-radius: 2px;
@@ -124,7 +140,6 @@ input[type=submit], input[type=button] {
 
 input[type=text]:not(.browser-default):focus:not([readonly]) {
   border-bottom: 1px solid #3f51b5;
-  -webkit-box-shadow: 0 1px 0 0 #3f51b5;
   box-shadow: 0 1px 0 0 #3f51b5;
 }
 
@@ -203,6 +218,12 @@ header #slide-out .divider {
 }
 #wall .tabs .indicator {
   background-color: #ff9800;
+}
+#wall #controls {
+  padding: 10px;
+}
+#wall #controls .switch {
+  margin: 0 0 0 10px;
 }
 #wall #logs {
   margin: 0 auto 40px;

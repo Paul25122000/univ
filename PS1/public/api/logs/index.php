@@ -56,9 +56,13 @@ function postRecord($record)
 function deleteRecord($record)
 {
     global $conn;
-    $sql = "DELETE FROM $table WHERE $name = '$record->name' AND id =$record->id";
+    $deleteAll = isset($_GET["deleteAll"]);
+    if($deleteAll)
+        $sql = "DELETE FROM `GH_logs` WHERE 1";
+    else
+        $sql = "DELETE FROM `GH_logs` WHERE id=$record->id";
     if ($conn->query($sql) === TRUE) {
-        echo json_encode($record);
+        echo $deleteAll ? json_encode("Table has been successfully truncated") : json_encode($record);
     } else {
         echo json_encode($conn->error);
     }

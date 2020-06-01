@@ -5,7 +5,7 @@ body {
     font-family: theme.$face;
     padding: 0;
     margin: 0;
-    min-height: 100vh;
+    min-height: calc(100vh - #{theme.$header});
     background:
         radial-gradient(#3f51b5 3px, transparent 4px),
         radial-gradient(#3f51b5 3px, transparent 4px),
@@ -15,12 +15,32 @@ body {
         #fff;
     background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
     background-position: 55px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
-    box-sizing: border-box;
-    // min-height: calc(100vh - 60px);
+    box-sizing: border-box;;
 }
 
 * {
     outline: none;
+}
+
+.btn:hover {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14), 0 1px 2px 0 rgba(0, 0, 0, 0.12), 0 3px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+.btn.outline {
+    background-color: white;
+    color: theme.$primary;
+    border: solid 2px theme.$primary;
+    line-height: 1;
+    box-shadow: none;
+    border-radius: 5px;
+}
+
+.switch label input[type=checkbox]:checked+.lever:after {
+    background-color: theme.$primary;
+}
+
+.switch label input[type=checkbox]:checked+.lever {
+    background-color: rgba(theme.$primary, 70%);
 }
 
 input[type=number] {
@@ -65,7 +85,6 @@ input {
         margin: 4px 0px 2px auto;
         background: theme.$primary;
         color: white;
-        height: 32px;
         border: none;
         font-size: 14px;
         border-radius: 2px;
@@ -107,7 +126,6 @@ input {
 
 input[type=text]:not(.browser-default):focus:not([readonly]) {
     border-bottom: 1px solid theme.$primary;
-    -webkit-box-shadow: 0 1px 0 0 theme.$primary;
     box-shadow: 0 1px 0 0 theme.$primary;
 }
 
