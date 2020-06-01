@@ -41,7 +41,10 @@
             <form>
                 <input type="text" placeholder="Date" class="datepicker">
                 <input type="text" placeholder="Time" class="timepicker">
-                <input type="button" value="Filter" onclick="setFilter()" class="btn darken indigo">
+                <div class="filter_actions d_fl a_c j_sb">
+                    <button id="clearFilter" class="btn darken outline">Clear filter</button>
+                    <input type="button" value="Filter" onclick="setFilter()" class="btn darken indigo">
+                </div>
             </form>
         </div>
         <div id="controls" class="card d_fl a_c j_sb">
@@ -56,7 +59,7 @@
                     </label>
                 </div>
             </div>
-            <button id="deleteAll" class="btn outline darken">Delete all records</button>
+            <button class="btn outline darken modal-trigger" href="#modal1">Delete all records</button>
         </div>
         <div class="row tabs_container">
             <div class="col s12">
@@ -86,6 +89,18 @@
             </table>
         </div>
     </section>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Delete all records</h4>
+            <p>Are you sure that you want to delete all logs from the database?<br>
+            This action can not be undone</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close btn-flat">Abort</a>
+            <a href="#!" class="modal-close btn-flat" id="deleteAll">Proceed</a>
+        </div>
+    </div>
     <script src="materialize/js/materialize.min.js"></script>
     <script src="js/logs.js" defer></script>
 </body>
