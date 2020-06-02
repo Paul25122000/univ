@@ -37,10 +37,10 @@
 
 <body>
     <section id="wall" class="card">
-        <h4 >Preferences</h4 >
+        <h4>Preferences</h4>
         <div class="form block">
             <form onsubmit="updatePreferences()">
-            <!-- <form> -->
+                <!-- <form> -->
                 <div class="input-field col s12">
                     <select id="kind">
                     </select>
@@ -58,11 +58,23 @@
                     <input id="water" type="number" required min="1" max="1023">
                     <label for="water">Water</label>
                 </div>
-                <input type="submit">
+                <input class="btn darken indigo" type="submit">
                 <!-- <input type="button" value="Submit" onclick="updatePreferences()"> -->
             </form>
         </div>
     </section>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h4>Delete preference</h4>
+            <p>Are you sure that you want to delete this preference from the database?<br>
+                This will also delete all logs linked to it and this action can not be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close btn-flat">Abort</a>
+            <a href="#!" class="modal-close btn-flat" id="deletePreference">Proceed</a>
+        </div>
+    </div>
     <script src="materialize/js/materialize.min.js"></script>
     <script src="js/preferences.js" defer></script>
 </body>

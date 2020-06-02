@@ -251,4 +251,8 @@ header #slide-out .divider {
   display: none;
 }
 
+#deletePreference {
+  color: #f44336;
+}
+
 /*# sourceMappingURL=preferences.css.map */

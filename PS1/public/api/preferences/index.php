@@ -48,7 +48,9 @@ function postRecord($record)
 function deleteRecord($record)
 {
     global $conn;
-    $sql = "DELETE FROM GH_preferences WHERE id =$record->id";
+    $sql = "DELETE GH_preferences, GH_logs 
+            FROM GH_preferences INNER JOIN GH_logs
+            WHERE GH_preferences.id=$record->id AND GH_logs.culture_id=$record->id";
     if ($conn->query($sql) === TRUE) {
         echo json_encode($record);
     } else {

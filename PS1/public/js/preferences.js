@@ -3,7 +3,7 @@
 const api = 'http://192.168.64.6/univ/PS1/public/api/preferences/';
 
 var updatePreferences,
-    deletePreference,
+    openModal,
     nearest = (name, node) => {
         while (node.className.indexOf(name) == -1 && parent != null)
             node = node.parentElement;
@@ -34,27 +34,14 @@ async function getRecordsAsync(url) {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const inputs = document.querySelectorAll('.input-field input[required]'),
-        preferencesSelect = document.querySelector('select');
+    const inputs = document.querySelectorAll('.input-field input[required]');
+    const preferencesSelect = document.querySelector('select');
 
-
-    deletePreference = (id) => {
-        fetch(api + ':3000/preferences/' + id, { method: 'DELETE' });
-        location.reload();
-        let el = event.currentTarget.parentElement,
-            trigger = document.querySelector('.select-dropdown.dropdown-trigger');
-        // el.parentElement.removeChild(el);
-
-        // currentId = getRecordsAsync(api + ':3000/preferences/0')
-        //     .then(data => {
-        //         trigger.value = data.current;
-        //     })
-
-    };
     const addIcon = (element) => {
         let parent = element.parentElement;
         parent.className = 'd_fl a_c j_sb';
-        parent.innerHTML += `<i class="material-icons clickable" onclick="deletePreference('${element?.id}')">delete</i>`
+        parent.innerHTML +=
+            `<i class="material-icons clickable modal-trigger" onclick="openModal(event)">delete</i>`
     }
     getRecordsAsync(api)
         .then(response => {
@@ -63,15 +50,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // get selected preference
                 if (element.selected) {
-                    console.log(element)
                     selectedPreference = element.current;
                     inputs[0].value = element.light;
                     inputs[1].value = element.temperature;
                     inputs[2].value = element.water;
                 }
                 preferencesSelect.innerHTML +=
-                    `<option data-id="${element.id}" ${element.selected ? 'selected' : ''}
-                    value="${element.name}">${element.name}</option>`
+                    `<option value="${element.id}" ${element.selected ? 'selected' : ''}>${element.name}</option>`
 
             });
             M.updateTextFields();
@@ -80,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
             list = document.querySelectorAll(".dropdown-content span");
             list.forEach(item => {
                 addIcon(item)
-                console.log(item)
                 item.onclick = () => {
                     let currentName = this.innerText.replace('\ndelete', ''),
                         origin = document.querySelector('[value="' + currentName + '"]'),
@@ -96,6 +80,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
         });
+
+    const getOptionByName = (preference) => {
+        const options = document.querySelectorAll("#kind option");
+        let id = null;
+        options.forEach(option => {
+            if (option.innerHTML.trim() == preference)
+                id = option.value;
+        });
+        return id;
+    }
+
+    const deletePreference = document.querySelector("#deletePreference");
+    const deleteModal = document.querySelector("#deleteModal")
+    openModal = (event) => {
+        const trigger = event.target || event.srcElement;
+        const span = trigger.parentElement.querySelector("span");
+        const preference = span.innerHTML.trim();
+
+        const preferenceId = getOptionByName(preference);
+        deletePreference.onclick = () => {
+            if (preferenceId !== null) {
+                const select = document.querySelector("#kind");
+                select.removeChild(
+                    select.querySelector(`[value="${preferenceId}"]`)
+                );
+                fetch(api, {
+                    method: 'DELETE',
+                    body: JSON.stringify({
+                        "id": preferenceId
+                    })
+                }).then(window.location.reload())
+
+            }
+        }
+
+        M.Modal.getInstance(deleteModal).open()
+    }
 
     updatePreferences = () => {
         currentId = getRecordsAsync(api + ':3000/preferences/0')
@@ -117,7 +138,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var navElems = document.querySelectorAll('.sidenav'),
         navOptions = {
             "edge": "right"
-        };
+        },
+        modlas = document.querySelectorAll('.modal');
     M.Sidenav.init(navElems, navOptions);
+    M.Modal.init(modlas);
 
 });
