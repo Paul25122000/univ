@@ -89,6 +89,8 @@ void setup() {
   updateConfig();
   sensors.begin();
   display.setSegments(degreeCelsius);
+  
+  Serial.print("Ready\n");
 }
 
 void ultrasonicRoutine() {
@@ -168,21 +170,19 @@ void transmitSerial() {
   }
   else
   {
-    Serial.print(lightValue); Serial.print("_");
-    Serial.print(lightSet); Serial.print("_");
+    Serial.print((int) lightValue); Serial.print("_");
     Serial.print(temperatureValue); Serial.print("_");
-    Serial.print(temperatureSet); Serial.print("_");
-    Serial.print(waterValue); Serial.print("_");
-    Serial.print(waterSet); Serial.print("\n");
+    Serial.print(waterValue); Serial.print("\n");
   }
 }
 
+
 void loop(){
-  
   coolerRoutine();
   ultrasonicRoutine();
   lightRoutine();
 
+// uncomment for Arduino IDE
 //  if(Serial.available() > 0) {
     transmitSerial();
 //  }

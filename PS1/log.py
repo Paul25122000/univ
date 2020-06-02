@@ -1,4 +1,8 @@
-import requests, serial, time, threading, json
+import requests
+import serial
+import time
+import threading
+import json
 from datetime import datetime
 
 # API = "https://tonu.rocks/school/GreenHouse/api/"
@@ -10,7 +14,7 @@ baud_rate = 115200
 today = datetime.now()
 today = today.strftime("%b %d, %Y")
 log_file = "Logs/log_" + today + ".txt"
-# ser = serial.Serial(serial_port, baud_rate, timeout=.1)
+serial_connection = serial.Serial(serial_port, baud_rate, timeout=0.5)
 time.sleep(1)  # give the connection a second to settle)
 data = []
 
@@ -22,7 +26,7 @@ else:
     print(preferences)
 
     # default preferences
-    light = "200" 
+    light = "200"
     temperature = "25"
     water = "40"
     culture_id = "1"
@@ -37,7 +41,9 @@ else:
     # config message for Arduino
     config_msg = light + "e" + temperature + "e" + water + "ef"
     StartTime = time.time()
+    serial_connection.write(config_msg.encode())
 
+    line = ''
     class setInterval:
         def __init__(self, interval, action):
             self.interval = interval
@@ -56,12 +62,10 @@ else:
             self.stopEvent.set()
 
     def handleLogs():
-        global data, light, temperature, water, culture_id
-        # ser.write(config_msg.encode())
-        # line = ser.readline().strip()
-        # line = line.decode("utf-8")
+        global data, light, temperature, water, culture_id, line
+
+        line = line.decode("utf-8").strip()
         time_stamp = datetime.now().strftime("%H:%M:%S")
-        line = time_stamp+"_161_"+light+"_26.94_"+temperature+"_50_"+water+"_"+culture_id
         if line:
             if len(data) == 10:
                 output_file = open(log_file, "a+")
@@ -70,14 +74,14 @@ else:
                 data = []
                 output_file.close()
             else:
-                data.append(today + "/" + time_stamp + "_" + line.strip() +
+                data.append(today + "/" + time_stamp + "_" + line +
                             "\n")
                 line = line.split("_")
                 log_object = json.dumps({
-                    "cultureId": line[7],
-                    "light": line[1],
-                    "temperature": line[3],
-                    "water": line[5]
+                    "cultureId": culture_id,
+                    "light": line[0],
+                    "temperature": line[1],
+                    "water": line[2]
                 })
                 headers = {'Content-type': 'application/json'}
                 response = requests.put(url=API + "logs/",
@@ -88,6 +92,16 @@ else:
                 else:
                     print('\033[91m' + response.text + '\033[0m')
 
-    inter = setInterval(3, handleLogs)
-    # t = threading.Timer(30, inter.cancel)
+    state_msg = serial_connection.readline().decode("utf-8").strip()
+
+    if(state_msg == "Ready"):
+        print("Connection settled")
+        readRoutine = setInterval(3, handleLogs)
+
+        while 1:
+            line = serial_connection.readline()
+    else:
+        print(state_msg)
+
+    # t = threading.Timer(30, readRoutine.cancel)
     # t.start()
