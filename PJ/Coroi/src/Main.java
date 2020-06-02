@@ -1,7 +1,9 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
@@ -14,8 +16,30 @@ public class Main extends JFrame {
     private JLabel count;
     private JComboBox comboBox1;
     private JButton btnWrite;
+    private JPanel drawingPane;
+    private JPanel templatePane;
 
     private int counter = 1;
+    private int radius = 20;
+
+    class CircleDrawer extends JPanel {
+        private static final long serialVersionUID = 1L;
+        private int x;
+        private int y;
+        private int radius;
+        CircleDrawer(int x, int y, int radius) {
+            this.x = x;
+            this.y = y;
+            this. radius = radius;
+            setPreferredSize(new Dimension(radius, radius));
+        }
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.fillOval(x, y, radius, radius);
+        }
+    }
+
 
     public Main(String title) {
         super(title);
@@ -32,6 +56,7 @@ public class Main extends JFrame {
                     msg.setText("Can not increment");
                 }
                 else {
+                    msg.setText("");
                     count.setText(String.valueOf(++counter));
                 }
             }
@@ -43,6 +68,7 @@ public class Main extends JFrame {
                     msg.setText("Can not decrement");
                 }
                 else {
+                    msg.setText("");
                     count.setText(String.valueOf(--counter));
                 }
             }
@@ -53,10 +79,9 @@ public class Main extends JFrame {
         if(radius < 20)
             radius = 20 + radius % 20;
 
+        this.radius = radius;
         comboBox1.addItem(25);
-        comboBox1.addItem(radius);
-
-
+        comboBox1.addItem(this.radius);
 
         btnWrite.addActionListener(new ActionListener() {
             @Override
@@ -71,6 +96,20 @@ public class Main extends JFrame {
                 System.out.println("Successfully wrote to the file.");
             }
         });
+
+        comboBox1.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                setRadius((Integer) comboBox1.getSelectedItem());
+            }
+        });
+    }
+
+    private void setRadius(int radius) {
+        this.radius = radius;
+    }
+    private int getRadius() {
+        return this.radius;
     }
 
 
@@ -80,6 +119,9 @@ public class Main extends JFrame {
         frame.setSize(400, 300);
     }
 
+    private void createUIComponents() {
+        templatePane = new CircleDrawer(0, 0, radius);
+    }
 }
 
 
