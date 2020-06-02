@@ -39,27 +39,25 @@
     <section id="wall" class="card">
         <h4>Preferences</h4>
         <div class="form block">
-            <form onsubmit="updatePreferences()">
-                <!-- <form> -->
+            <form id="preferenceForm">
                 <div class="input-field col s12">
                     <select id="kind">
                     </select>
                     <label>Greenhouse preferences</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="light" type="number" required min="1" max="1023">
+                    <input name="light" id="light" type="number" required min="1" max="1023">
                     <label for="light">Light</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="temperature" type="number" required min="1" max="1023">
+                    <input name="temperature" id="temperature" type="number" required min="1" max="1023">
                     <label for="temperature">Temperature</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="water" type="number" required min="1" max="1023">
+                    <input name="water" id="water" type="number" required min="1" max="1023">
                     <label for="water">Water</label>
                 </div>
                 <input class="btn darken indigo" type="submit">
-                <!-- <input type="button" value="Submit" onclick="updatePreferences()"> -->
             </form>
         </div>
     </section>

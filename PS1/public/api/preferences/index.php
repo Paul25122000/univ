@@ -7,7 +7,13 @@ function listData()
 {
     global $conn;
     try {
-        $stmt = $conn->prepare("SELECT * FROM GH_preferences");
+        $preference_id = isset($_GET['id']) ? $_GET['id'] : 0;
+        if ($preference_id == 0) {
+            $sql = "SELECT * FROM GH_preferences";
+        } else {
+            $sql = "SELECT * FROM GH_preferences WHERE id=$preference_id";
+        }
+        $stmt = $conn->prepare($sql);
         $stmt->execute();
         $stmt->bind_result($id, $name, $selected, $light, $temperature, $water);
         $json_array = [];
@@ -61,8 +67,11 @@ function deleteRecord($record)
 function updateRecord($record)
 {
     global $conn;
-    $sql = "UPDATE `preferences` SET `light`='$record->light', `temperature`='$record->temperature',  `water`='$record->water' WHERE id = $record->id";
+    $sql = "UPDATE `GH_preferences` SET `is_selected`=1, 
+        `light`='$record->light', `temperature`='$record->temperature',  `water`='$record->water' 
+        WHERE id = $record->id";
     if ($conn->query($sql) === TRUE) {
+        $conn->query("UPDATE `GH_preferences` SET `is_selected`=0 WHERE id!=$record->id");
         echo json_encode($record);
     } else {
         echo json_encode($conn->error);
