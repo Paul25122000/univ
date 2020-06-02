@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class Main extends JFrame {
@@ -10,6 +13,7 @@ public class Main extends JFrame {
     private JLabel msg;
     private JLabel count;
     private JComboBox comboBox1;
+    private JButton btnWrite;
 
     private int counter = 1;
 
@@ -18,6 +22,9 @@ public class Main extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPane);
         this.pack();
+
+        count.setText(String.valueOf(counter));
+
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("add");
@@ -48,6 +55,22 @@ public class Main extends JFrame {
 
         comboBox1.addItem(25);
         comboBox1.addItem(radius);
+
+
+
+        btnWrite.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    FileWriter fileWriter = new FileWriter("counter.txt");
+                    fileWriter.write(count.getText());
+                    fileWriter.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                System.out.println("Successfully wrote to the file.");
+            }
+        });
     }
 
 
