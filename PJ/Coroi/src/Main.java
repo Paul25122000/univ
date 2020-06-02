@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class Main extends JFrame {
     private JPanel mainPane;
@@ -8,9 +9,9 @@ public class Main extends JFrame {
     private JButton btnRemove;
     private JLabel msg;
     private JLabel count;
+    private JComboBox comboBox1;
 
     private int counter = 1;
-
 
     public Main(String title) {
         super(title);
@@ -39,7 +40,16 @@ public class Main extends JFrame {
                 }
             }
         });
+
+        Random ran = new Random();
+        int radius = ran.nextInt(26);
+        if(radius < 20)
+            radius = 20 + radius % 20;
+
+        comboBox1.addItem(25);
+        comboBox1.addItem(radius);
     }
+
 
     public static void main(String[] args) {
         JFrame frame = new Main("Circles");
