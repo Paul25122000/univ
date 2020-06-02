@@ -47,7 +47,21 @@ const uint8_t degreeCelsius[] = {
   SEG_A | SEG_D | SEG_E | SEG_F  // C
   };
 
-void(* resetFunc) (void) = 0;
+void recieveSerial() {
+  data = Serial.read();
+  switch(data){
+    case 'f':
+      loaded = 1;
+      break;
+    case 'e':
+        i = (i + 1) % 3;
+      break;
+    default:
+        buff[i] *= 10;
+        buff[i] += (data - 48);
+        break;
+  }
+}
 
 void updateConfig() {
   if(isDemoMode)
@@ -59,12 +73,14 @@ void updateConfig() {
   else
   {
     while(!loaded)
-      if(Serial.available() > 0)
+     if(Serial.available() > 0)
         recieveSerial();
     
     lightSet = buff[0];
     temperatureSet = buff[1];
-    waterSet = buff[2]; 
+    waterSet = buff[2];
+    
+    Serial.print("Ready\n");
   }
   
 }
@@ -89,8 +105,6 @@ void setup() {
   updateConfig();
   sensors.begin();
   display.setSegments(degreeCelsius);
-  
-  Serial.print("Ready\n");
 }
 
 void ultrasonicRoutine() {
@@ -142,21 +156,6 @@ void lightRoutine(){
   analogWrite(10,lightPWM); //LED is set to digital 3 this is a pwm pin. 
 }
 
-void recieveSerial() {
-  data = Serial.read();
-  switch(data){
-    case 'f':
-      loaded = 1;
-      break;
-    case 'e':
-        i = (i + 1) % 3;
-      break;
-    default:
-        buff[i] *= 10;
-        buff[i] += (data - 48);
-        break;
-  }
-}
 
 void transmitSerial() {
   if(isDemoMode)
@@ -187,4 +186,5 @@ void loop(){
     transmitSerial();
 //  }
 
+  updateConfig();
 }
