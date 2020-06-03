@@ -1,0 +1,276 @@
+.d_fl {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.j_sb {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.j_sa {
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+
+.j_c {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.a_c {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 0;
+  margin: 0;
+  min-height: calc(100vh - 64px);
+  background: radial-gradient(#3f51b5 3px, transparent 4px), radial-gradient(#3f51b5 3px, transparent 4px), linear-gradient(#fff 4px, transparent 0), linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px), linear-gradient(-45deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px), #fff;
+  background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
+  background-position: 55px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+  box-sizing: border-box;
+}
+
+* {
+  outline: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.indigo_toast {
+  color: white;
+  background-color: #3f51b5;
+}
+
+.btn:hover {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14), 0 1px 2px 0 rgba(0, 0, 0, 0.12), 0 3px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+.btn.outline {
+  background-color: white;
+  color: #3f51b5;
+  border: solid 2px #3f51b5;
+  line-height: 1;
+  box-shadow: none;
+  border-radius: 5px;
+}
+
+.btn-flat:hover {
+  background: transparent;
+  box-shadow: none;
+}
+
+.margin_zero {
+  margin: 0 !important;
+}
+
+.switch label input[type=checkbox]:checked + .lever:after {
+  background-color: #3f51b5;
+}
+
+.switch label input[type=checkbox]:checked + .lever {
+  background-color: rgba(63, 81, 181, 0.7);
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-field input[type=text]:focus + label,
+.input-field input[type=password]:focus + label,
+.input-field input[type=number]:focus + label {
+  color: #3f51b5 !important;
+}
+
+.input-field input[type=text]:focus,
+.input-field input[type=password]:focus,
+.input-field input[type=number]:focus {
+  border-bottom: 1px solid #3f51b5 !important;
+  box-shadow: 0 1px 0 0 #3f51b5 !important;
+}
+
+.input-field input[type=text].valid,
+.input-field input[type=password].valid,
+.input-field input[type=number].valid {
+  border-bottom: 1px solid #3f51b5 !important;
+  box-shadow: 0 1px 0 0 #3f51b5 !important;
+}
+
+.dropdown-content li > a,
+.dropdown-content li > span {
+  color: #3f51b5;
+}
+
+.select-wrapper input.select-dropdown,
+.select-wrapper input.select-dropdown:focus {
+  border-bottom-color: #3f51b5;
+  border-width: 2px;
+}
+
+input[type=submit], input[type=button] {
+  margin: 4px 0px 2px auto;
+  background: #3f51b5;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 2px;
+  min-width: 64px;
+  display: block;
+}
+
+.timepicker-digital-display,
+.datepicker-date-display,
+.datepicker-table td.is-selected {
+  background-color: #3f51b5;
+}
+
+.datepicker-table td.is-today,
+.datepicker-cancel,
+.datepicker-clear,
+.datepicker-today,
+.datepicker-done,
+.timepicker-close {
+  color: #3f51b5;
+}
+
+.timepicker-tick.active,
+.timepicker-tick:hover {
+  background-color: rgba(63, 81, 181, 0.5);
+}
+
+.datepicker-table td.is-selected .datepicker-day-button {
+  color: white;
+}
+
+.timepicker-canvas-bg {
+  fill: #3f51b5;
+}
+
+.timepicker-canvas line,
+.timepicker-canvas-bearing {
+  stroke: #3f51b5;
+  fill: #3f51b5;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: 1px solid #3f51b5;
+  box-shadow: 0 1px 0 0 #3f51b5;
+}
+
+#wall > h4 {
+  margin: 20px 0 30px;
+  font-size: 32px;
+  font-family: sans-serif;
+}
+
+header {
+  height: 64px;
+  width: 100%;
+}
+header nav {
+  padding: 0 15px;
+  box-sizing: border-box;
+  background-color: #3f51b5;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+header nav > div {
+  height: 100%;
+}
+header nav i.sidenav-trigger {
+  color: white;
+  margin: 0;
+}
+header nav .logotype {
+  font-size: 22px;
+  font-family: sans-serif;
+  color: white;
+}
+header #slide-out {
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+header #slide-out .heading {
+  height: 64px;
+}
+@media screen and (max-width: 600px) {
+  header #slide-out .heading {
+    height: 56px;
+  }
+}
+header #slide-out a {
+  padding: 0;
+}
+header #slide-out .divider {
+  margin: 0 0 10px;
+}
+
+.input-field input.invalid ~ .helper-text::after {
+  color: #bf0000 !important;
+}
+
+.input-field input.invalid {
+  border-color: #bf0000 !important;
+}
+
+.navbar-nav {
+  width: 100%;
+}
+.navbar-nav li.nav-item.dropdown {
+  margin: 0 0 0 auto;
+}
+.navbar-nav .dropdown-menu {
+  left: unset;
+  right: 0;
+}
+
+body {
+  font: 14px sans-serif;
+}
+
+.authentification {
+  width: 100vw;
+  height: 100vh;
+  font-family: Montserrat, sans-serif;
+}
+.authentification h4 {
+  font-weight: 300;
+}
+
+.wrapper {
+  width: 540px;
+  max-width: calc(100% - 15px);
+  padding: 20px;
+  margin: 0 auto;
+}
+.wrapper .input-field i.material-icons {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #3f51b5;
+}
+.wrapper .input-field input.invalid ~ i.material-icons {
+  color: #f44336;
+}
+
+.heading_msg {
+  font: 200 normal 36px sans-serif;
+  margin: 40px auto 0;
+  text-align: center;
+}
+
+/*# sourceMappingURL=admin.css.map */

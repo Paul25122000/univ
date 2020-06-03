@@ -1,0 +1,63 @@
+@use 'partitials/theme';
+@use 'partitials/global';
+
+.input-field input.invalid~.helper-text::after {
+    color: #bf0000 !important;
+}
+
+.input-field input.invalid {
+    border-color: #bf0000 !important;
+}
+
+.navbar-nav {
+    width: 100%;
+
+    li.nav-item.dropdown {
+        margin: 0 0 0 auto;
+    }
+
+    .dropdown-menu {
+        left: unset;
+        right: 0;
+    }
+}
+
+body {
+    font: 14px sans-serif;
+}
+
+.authentification {
+    width: 100vw;
+    height: 100vh;
+    font-family: Montserrat, sans-serif;
+
+    h4 {
+        font-weight: 300;
+    }
+}
+
+.wrapper {
+    width: 540px;
+    max-width: calc(100% - 15px);
+    padding: 20px;
+    margin: 0 auto;
+
+    .input-field {
+        i.material-icons {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            color: theme.$primary;
+        }
+
+        input.invalid~i.material-icons {
+            color: theme.$danger;
+        }
+    }
+}
+
+.heading_msg {
+    font: 200 normal 36px sans-serif;
+    margin: 40px auto 0;
+    text-align: center;
+}

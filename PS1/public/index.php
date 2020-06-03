@@ -10,32 +10,12 @@
     <link rel="icon" href="favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/main.css">
     <title>Greenhouse - Home</title>
-
 </head>
 
 <body>
-    <header>
-        <nav>
-            <div class="d_fl a_c j_sb">
-                <a class="logotype" href="index.html">Gangiubas</a>
-                <i data-target="slide-out" class="material-icons sidenav-trigger clickable">menu</i>
-            </div>
-        </nav>
-        <ul id="slide-out" class="sidenav">
-            <li>
-                <div class="heading d_fl a_c j_sb">
-                    <span>Menu</span>
-                    <i class="material-icons sidenav-close clickable">close</i>
-                </div>
-            </li>
-            <li>
-                <div class="divider"></div>
-            </li>
-            <li><a href="logs.html">Logs</a></li>
-            <li><a href="preferences.html">Preferences</a></li>
-        </ul>
-    
-    </header>
+    <?php
+    include 'modules/navigation.php'
+    ?>
     <section id="wall" class="card">
         <h4>Greenhouse data</h4>
         <div class="heading d_fl a_c">

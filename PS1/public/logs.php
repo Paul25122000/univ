@@ -13,28 +13,9 @@
 </head>
 
 <body>
-    <header>
-        <nav>
-            <div class="d_fl a_c j_sb">
-                <a class="logotype" href="index.html">Gangiubas</a>
-                <i data-target="slide-out" class="material-icons sidenav-trigger clickable">menu</i>
-            </div>
-        </nav>
-        <ul id="slide-out" class="sidenav">
-            <li>
-                <div class="heading d_fl a_c j_sb">
-                    <span>Menu</span>
-                    <i class="material-icons sidenav-close clickable">close</i>
-                </div>
-            </li>
-            <li>
-                <div class="divider"></div>
-            </li>
-            <li><a href="logs.html">Logs</a></li>
-            <li><a href="preferences.html">Preferences</a></li>
-        </ul>
-
-    </header>
+    <?php
+    include 'modules/navigation.php'
+    ?>
     <section id="wall">
         <div class="pick_time card">
             <h4>Logs from:</h4>
@@ -95,7 +76,7 @@
         <div class="modal-content">
             <h4>Delete all records</h4>
             <p>Are you sure that you want to delete all logs from the database?<br>
-            This action can not be undone</p>
+                This action can not be undone</p>
         </div>
         <div class="modal-footer">
             <a href="#!" class="modal-close btn-flat">Abort</a>
