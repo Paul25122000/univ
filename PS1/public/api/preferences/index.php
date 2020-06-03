@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    echo json_encode("unauthorised");
+    exit;
+}
+
 include '../../modules/config.php';
 $method = $_SERVER['REQUEST_METHOD'];
 

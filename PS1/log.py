@@ -7,6 +7,7 @@ from datetime import datetime
 
 # API = "https://tonu.rocks/school/GreenHouse/api/"
 
+
 # global config
 API = 'http://192.168.64.6/univ/PS1/public/api/'
 preferences_endpoint = API + "preferences"
@@ -28,13 +29,21 @@ water = "40"
 culture_id = "1"
 config_msg = light + "e" + temperature + "e" + water + "ef"
 
+
+# start a new session
+session = requests.Session()
+login_data = {'username': 'tonualexandru', 'password': 'sunt1dulce'}
+
+login_response = session.post(API+'login.php',
+                              json.dumps(login_data))
+
 # function to request preferences from the server
 
 def updatePreferences():
     global light, temperature, water, culture_id, config_msg
 
     # get preferences from the server
-    response = requests.get(url=preferences_endpoint)
+    response = session.get(url=preferences_endpoint)
 
     # check if response status is ok
     if (response.status_code >= 400):
@@ -120,7 +129,7 @@ def handleLogs():
             headers = {'Content-type': 'application/json'}
 
             # make PUT request and store response
-            response = requests.put(url=API + "logs/",
+            response = session.put(url=API + "logs/",
                                     data=log_object,
                                     headers=headers)
 
@@ -138,7 +147,7 @@ if(state_msg == "Ready"):
     readRoutine = setInterval(3, handleLogs)
 
 
-# update config message 
+# update config message
     time.sleep(1)
     writeRoutine = setInterval(9, updatePreferences)
 
