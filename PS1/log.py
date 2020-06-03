@@ -34,8 +34,7 @@ config_msg = light + "e" + temperature + "e" + water + "ef"
 session = requests.Session()
 login_data = {'username': 'tonualexandru', 'password': 'sunt1dulce'}
 
-login_response = session.post(API+'login.php',
-                              json.dumps(login_data))
+login_response = session.post(API, json.dumps(login_data))
 
 # function to request preferences from the server
 
