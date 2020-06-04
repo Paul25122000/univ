@@ -4,23 +4,59 @@ import time
 import threading
 import json
 from datetime import datetime
-
-# API = "https://tonu.rocks/school/GreenHouse/api/"
-
+import tkinter as tk
 
 # global config
-API = 'http://192.168.64.6/univ/PS1/public/api/'
+API = "https://tonu.rocks/school/GreenHouse/api/"
 preferences_endpoint = API + "preferences"
 sensor = "DH11"
-serial_port = '/dev/cu.wchusbserialfa130'
+serial_port = '/dev/cu.wchusbserialfa130'  # (1)
 baud_rate = 115200
 today = datetime.now()
 today = today.strftime("%b %d, %Y")
-log_file = "Logs/log_" + today + ".txt"
+log_file = "Logs/log_" + today + ".txt"  # store logs locally as well
 serial_connection = serial.Serial(serial_port, baud_rate, timeout=0.5)
 time.sleep(1)  # give the connection a second to settle)
 data = []
 
+# user input variables
+session_username = ''
+session_password = ''
+
+
+# GUI to get username and password
+master = tk.Tk()
+master.title('GreenHouse Login') 
+tk.Label(master,
+         text="Username").grid(row=0)
+tk.Label(master,
+         text="Password").grid(row=1)
+
+# create entry inputs for username and password
+username = tk.Entry(master)
+password = tk.Entry(master)
+password.config(show="*")
+username.grid(row=0, column=1)
+password.grid(row=1, column=1)
+
+
+# get values from inputs
+def show_entry_fields():
+    global session_username, session_password, master
+    session_username = username.get()
+    session_password = password.get()
+    print("Username: "+session_username)
+    print("Password: "+session_password)
+    master.destroy()
+
+# submit form button
+tk.Button(master, text='Submit',
+          command=show_entry_fields).grid(row=3,
+                                          column=1,
+                                          sticky=tk.W,
+                                          pady=4)
+# keep GUI window open
+tk.mainloop()
 
 # default preferences
 light = "200"
@@ -32,11 +68,13 @@ config_msg = light + "e" + temperature + "e" + water + "ef"
 
 # start a new session
 session = requests.Session()
-login_data = {'username': 'tonualexandru', 'password': 'sunt1dulce'}
-
+login_data = {'username': session_username, 'password': session_password}
 login_response = session.post(API, json.dumps(login_data))
 
+print(login_response.text)
+
 # function to request preferences from the server
+
 
 def updatePreferences():
     global light, temperature, water, culture_id, config_msg
@@ -66,7 +104,7 @@ def updatePreferences():
 # update config from preferences
 updatePreferences()
 
-# write configutation to serial
+# write configuration to serial
 serial_connection.write(config_msg.encode())
 
 # declare transfer message
@@ -116,7 +154,7 @@ def handleLogs():
             data.append(
                 today + "/" + time_stamp + "_" + logs + "\n")
 
-            # split message on logs' delimitator
+            # split message on logs' delimiter
             log = logs.split("_")
             # create string from log object
             log_object = json.dumps({
@@ -129,8 +167,8 @@ def handleLogs():
 
             # make PUT request and store response
             response = session.put(url=API + "logs/",
-                                    data=log_object,
-                                    headers=headers)
+                                   data=log_object,
+                                   headers=headers)
 
             # check response status and display its text
             if (response.status_code < 400):
