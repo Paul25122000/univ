@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="d_fl a_c j_c authentification">
         <div class="wrapper card">
-            <h4 class="center">Resetează parola</h4>
+            <h4 class="center">Change password</h4>
             <div class="row">
                 <form class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="input-field col s12">
