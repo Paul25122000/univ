@@ -1,28 +1,33 @@
 .d_fl {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
 .j_sb {
   -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
 .j_sa {
+  -webkit-justify-content: space-around;
   -ms-flex-pack: distribute;
   justify-content: space-around;
 }
 
 .j_c {
   -webkit-box-pack: center;
+  -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
 }
 
 .a_c {
   -webkit-box-align: center;
+  -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
 }
@@ -32,6 +37,7 @@ body {
   padding: 0;
   margin: 0;
   min-height: calc(100vh - 64px);
+  background: -webkit-radial-gradient(#3f51b5 3px, transparent 4px), -webkit-radial-gradient(#3f51b5 3px, transparent 4px), -webkit-linear-gradient(#fff 4px, transparent 0), -webkit-linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px), -webkit-linear-gradient(135deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px), #fff;
   background: radial-gradient(#3f51b5 3px, transparent 4px), radial-gradient(#3f51b5 3px, transparent 4px), linear-gradient(#fff 4px, transparent 0), linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px), linear-gradient(-45deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px), #fff;
   background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
   background-position: 55px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
@@ -79,6 +85,13 @@ body {
 
 .switch label input[type=checkbox]:checked + .lever {
   background-color: rgba(63, 81, 181, 0.7);
+}
+
+input:-webkit-autofill ~ label {
+  -webkit-transform: translateY(-14px) scale(0.8);
+  transform: translateY(-14px) scale(0.8);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
 }
 
 input[type=number] {

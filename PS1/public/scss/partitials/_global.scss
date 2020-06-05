@@ -7,6 +7,13 @@ body {
     margin: 0;
     min-height: calc(100vh - #{theme.$header});
     background:
+        -webkit-radial-gradient(#3f51b5 3px, transparent 4px),
+        -webkit-radial-gradient(#3f51b5 3px, transparent 4px),
+        -webkit-linear-gradient(#fff 4px, transparent 0),
+        -webkit-linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px),
+        -webkit-linear-gradient(135deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px),
+        #fff;
+    background:
         radial-gradient(#3f51b5 3px, transparent 4px),
         radial-gradient(#3f51b5 3px, transparent 4px),
         linear-gradient(#fff 4px, transparent 0),
@@ -61,6 +68,13 @@ body {
 
 .switch label input[type=checkbox]:checked+.lever {
     background-color: rgba(theme.$primary, 70%);
+}
+
+input:-webkit-autofill ~ label{
+    -webkit-transform: translateY(-14px) scale(0.8);
+            transform: translateY(-14px) scale(0.8);
+    -webkit-transform-origin: 0 0;
+            transform-origin: 0 0;
 }
 
 input[type=number] {
