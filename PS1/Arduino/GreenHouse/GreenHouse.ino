@@ -83,9 +83,6 @@ void updateConfig()
   lightSet = buff[0];
   temperatureSet = buff[1];
   waterSet = buff[2];
-
-  // Acknowledge emitor that data was successfully received
-  Serial.print("Ready\n");
 }
 
 void setup()
@@ -116,6 +113,9 @@ void setup()
 
   // call function to update configuration variables
   updateConfig();
+
+  // Acknowledge emitor that data was successfully received
+  Serial.print("Ready\n");
 
   // start temperature sensor
   sensors.begin();
